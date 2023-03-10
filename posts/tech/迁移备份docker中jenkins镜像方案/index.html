@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>迁移备份Docker中Jenkins镜像方案 | 陆家嘴巨饿</title>
+<meta name="keywords" content="">
+<meta name="description" content="一、快速迁移方法 1、将 Jenkins 工作目录打包压缩。（因为 Jenkins 的所有配置都存放在工作目录下，所以我们迁移工作目录下的内容即可） 1.1、进入容器挂载的 Jenkins 工">
+<meta name="author" content="Jiang Jun">
+<link rel="canonical" href="https://jiangjun8888.github.io/posts/tech/%E8%BF%81%E7%A7%BB%E5%A4%87%E4%BB%BDdocker%E4%B8%ADjenkins%E9%95%9C%E5%83%8F%E6%96%B9%E6%A1%88/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="apple-touch-icon" href="https://jiangjun8888.github.io/logo.jpeg">
+<link rel="mask-icon" href="https://jiangjun8888.github.io/logo.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+
+
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = ""; 
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<meta property="og:title" content="迁移备份Docker中Jenkins镜像方案" />
+<meta property="og:description" content="一、快速迁移方法 1、将 Jenkins 工作目录打包压缩。（因为 Jenkins 的所有配置都存放在工作目录下，所以我们迁移工作目录下的内容即可） 1.1、进入容器挂载的 Jenkins 工" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jiangjun8888.github.io/posts/tech/%E8%BF%81%E7%A7%BB%E5%A4%87%E4%BB%BDdocker%E4%B8%ADjenkins%E9%95%9C%E5%83%8F%E6%96%B9%E6%A1%88/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-11T20:48:12+08:00" />
+<meta property="article:modified_time" content="2023-03-11T20:48:12+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="迁移备份Docker中Jenkins镜像方案"/>
+<meta name="twitter:description" content="一、快速迁移方法 1、将 Jenkins 工作目录打包压缩。（因为 Jenkins 的所有配置都存放在工作目录下，所以我们迁移工作目录下的内容即可） 1.1、进入容器挂载的 Jenkins 工"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://jiangjun8888.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "👨🏻‍💻 技术",
+      "item": "https://jiangjun8888.github.io/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "迁移备份Docker中Jenkins镜像方案",
+      "item": "https://jiangjun8888.github.io/posts/tech/%E8%BF%81%E7%A7%BB%E5%A4%87%E4%BB%BDdocker%E4%B8%ADjenkins%E9%95%9C%E5%83%8F%E6%96%B9%E6%A1%88/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "迁移备份Docker中Jenkins镜像方案",
+  "name": "迁移备份Docker中Jenkins镜像方案",
+  "description": "一、快速迁移方法 1、将 Jenkins 工作目录打包压缩。（因为 Jenkins 的所有配置都存放在工作目录下，所以我们迁移工作目录下的内容即可） 1.1、进入容器挂载的 Jenkins 工",
+  "keywords": [
+    
+  ],
+  "articleBody": "一、快速迁移方法 1、将 Jenkins 工作目录打包压缩。（因为 Jenkins 的所有配置都存放在工作目录下，所以我们迁移工作目录下的内容即可） 1.1、进入容器挂载的 Jenkins 工作目录，如果没有挂载，则进入容器，默认的工作目录是：/var/jenkins_home。此目录下又两个文件夹占用空间很大，为：./workspace 和 ./caches 第一个是保存的拉取下的代码和编译源文件，第二个是缓存文件，都可以删除掉已节省打包后的文件大小。保险起见先备份到另一个位置再删除。\n1.2、执行命令压缩目录\n#第一个参数为压缩后到文件名，第二个为你要压缩到目录所在位置 tar -cvf jenkins_home.tar /home/data/jenkins_home/ 2、将压缩包迁移至要部署的新机器中，我这用的 scp 命令 scp jenkins_home.tar root@IP地址:/root 1.会提示一段确认信息，输入yes后回车 2.提示输入目标机器登录密码，输入后回车 3、在新机器上启动一个全新的 Jenkins 容器，并挂载好工作目录 #我这是拉取的私人仓库的镜像，如果没有初始镜像的话，可以将最后的镜像名替换为：jenkins/jenkins:latest （来源：DockerHub） docker run -d --privileged=true \\ --name jenkins-hercules -p 8010:8080 -p 50000:50000 \\ --restart=always \\ -v /home/jenkins/data/jenkins_home:/var/jenkins_home \\ -v /var/run/docker.sock:/var/run/docker.sock \\ -v /usr/bin/docker:/usr/bin/docker \\ -v /etc/localtime:/etc/localtime \\ --user root \\ jenkins-image 4、启动成功后停止容器，删除挂载的工作目录下的所有文件 rm -rf /home/jenkins/data/* 5、将原来压缩好的 Jenkins 工作目录解压至上一步容器挂载的工作目录下 cd /home/jenkins/data/ # 解压至当前目录下 tar -zxvf ~/jenkins_home.tar 6、启动刚刚停止的 Jenkins 容器，用户名和密码都还是原来的，至此迁移完成。 二、完整迁移方法（包含容器） 0、先将工作目录压缩后传到目标机器上，参照上方快速迁移方法的1、2步 1、查看容器运行状态 docker ps -a d796453c4ca1 jenkins:1.0 \"/sbin/tini -- /usr/…\" 11 months ago Up 6 hours 0.0.0.0:50000-\u003e50000/tcp, :::50000-\u003e50000/tcp, 0.0.0.0:8010-\u003e8080/tcp, :::8010-\u003e8080/tcp jenkins # ps:我这个容器是在在启动jenkins时就把工作目录挂载到宿主机上了，如果没有挂载，请进入容器，默认的工作目录是：/var/jenkins_home。 2、执行 docker commit 命令将容器保存为镜像 docker commit jenkins(容器名) jenkins-image(镜像名) 3、查看镜像 docker images REPOSITORY TAG IMAGE ID CREATED SIZE jenkins-image latest 4a12d5121f83 6 hours ago 3.59GB 4、将镜像保存为压缩文件 docker save docker save -o jenkins.tar（文件名） jenkins-image(镜像名) 5、将压缩好的tar文件移到新机器 #通过 scp 命令直接发送到新机器中，或者push 到 DockerHub 在 Pull到目标机器 #执行 docker load 将文件导入为镜像 docker load -i jenkins.tar（文件名） 6、创建 Jenkins 工作目录并赋予权限 mkdir -p /home/jenkins/data/jenkins_home/ #设置目录权限 chmod -R 777 /home/jenkins/ #给docker.sock授予权限 chmod 777 /var/run/docker.sock 7、执行命令启动 Jenkins docker run -d --privileged=true \\ --name jenkins-hercules -p 8010:8080 -p 50000:50000 \\ --restart=always \\ -v /home/jenkins/data/jenkins_home:/var/jenkins_home \\ -v /var/run/docker.sock:/var/run/docker.sock \\ -v /usr/bin/docker:/usr/bin/docker \\ -v /etc/localtime:/etc/localtime \\ --user root \\ jenkins-image 8、参照上方快速迁移方法的4、5、6步将原来的工作目录替换掉现在的即可。 PS: 1、本来我认为保存了整个容器应该将原有的配置内容也都保存了，但启动后我访问 Jenkins 还是让我执行初始化的那些步骤，原来的配置都没了，暂时还没研究是什么原因导致，所以建议直接用快速迁移方法即可。\n2、如果你的 Jenkins 跑了很多流水线的话，实际上你要按照第二种方式备份你的镜像文件是巨大的，我这个将近 15GB 。通过删掉一些不必要的东西如：代码编译后的 Jar、缓存文件夹、maven仓库、npm软件包(前两个在工作目录下，后两个在容器的 root目录下，为隐藏文件夹，可通过 du -sh .[!.]* 显示隐藏目录)。清理后打包容器为镜像后还有 3.4G，如果服务器不是内网有带宽限制会导致文件传输巨慢，浪费时间。\n",
+  "wordCount" : "1346",
+  "inLanguage": "en",
+  "datePublished": "2023-03-11T20:48:12+08:00",
+  "dateModified": "2023-03-11T20:48:12+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Jiang Jun"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jiangjun8888.github.io/posts/tech/%E8%BF%81%E7%A7%BB%E5%A4%87%E4%BB%BDdocker%E4%B8%ADjenkins%E9%95%9C%E5%83%8F%E6%96%B9%E6%A1%88/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "陆家嘴巨饿",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://jiangjun8888.github.io/img/logo.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://jiangjun8888.github.io/" accesskey="h" title="陆家嘴巨饿 (Alt + H)">
+                <img src="https://jiangjun8888.github.io/img/logo.jpeg" alt="" aria-label="logo"
+                    height="35">陆家嘴巨饿</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://jiangjun8888.github.io/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jiangjun8888.github.io/" title="🏠主页">
+                    <span>🏠主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jiangjun8888.github.io/posts" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://jiangjun8888.github.io/">🏠 主页</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+    <h1 class="post-title">
+      迁移备份Docker中Jenkins镜像方案
+    </h1>
+    <div class="post-meta"><style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2023-03-11
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>1346字
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>3分钟阅读
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>Jiang Jun
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+        </span>
+    </span>
+</span>
+
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">文章目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e4%b8%80%e5%bf%ab%e9%80%9f%e8%bf%81%e7%a7%bb%e6%96%b9%e6%b3%95" aria-label="一、快速迁移方法">一、快速迁移方法</a><ul>
+                        
+                <li>
+                    <a href="#1%e5%b0%86-jenkins-%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e6%89%93%e5%8c%85%e5%8e%8b%e7%bc%a9%e5%9b%a0%e4%b8%ba-jenkins-%e7%9a%84%e6%89%80%e6%9c%89%e9%85%8d%e7%bd%ae%e9%83%bd%e5%ad%98%e6%94%be%e5%9c%a8%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e4%b8%8b%e6%89%80%e4%bb%a5%e6%88%91%e4%bb%ac%e8%bf%81%e7%a7%bb%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e4%b8%8b%e7%9a%84%e5%86%85%e5%ae%b9%e5%8d%b3%e5%8f%af" aria-label="1、将 Jenkins 工作目录打包压缩。（因为 Jenkins 的所有配置都存放在工作目录下，所以我们迁移工作目录下的内容即可）">1、将 Jenkins 工作目录打包压缩。（因为 Jenkins 的所有配置都存放在工作目录下，所以我们迁移工作目录下的内容即可）</a></li>
+                <li>
+                    <a href="#2%e5%b0%86%e5%8e%8b%e7%bc%a9%e5%8c%85%e8%bf%81%e7%a7%bb%e8%87%b3%e8%a6%81%e9%83%a8%e7%bd%b2%e7%9a%84%e6%96%b0%e6%9c%ba%e5%99%a8%e4%b8%ad%e6%88%91%e8%bf%99%e7%94%a8%e7%9a%84-scp-%e5%91%bd%e4%bb%a4" aria-label="2、将压缩包迁移至要部署的新机器中，我这用的 scp 命令">2、将压缩包迁移至要部署的新机器中，我这用的 scp 命令</a></li>
+                <li>
+                    <a href="#3%e5%9c%a8%e6%96%b0%e6%9c%ba%e5%99%a8%e4%b8%8a%e5%90%af%e5%8a%a8%e4%b8%80%e4%b8%aa%e5%85%a8%e6%96%b0%e7%9a%84-jenkins-%e5%ae%b9%e5%99%a8%e5%b9%b6%e6%8c%82%e8%bd%bd%e5%a5%bd%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95" aria-label="3、在新机器上启动一个全新的 Jenkins 容器，并挂载好工作目录">3、在新机器上启动一个全新的 Jenkins 容器，并挂载好工作目录</a></li>
+                <li>
+                    <a href="#4%e5%90%af%e5%8a%a8%e6%88%90%e5%8a%9f%e5%90%8e%e5%81%9c%e6%ad%a2%e5%ae%b9%e5%99%a8%e5%88%a0%e9%99%a4%e6%8c%82%e8%bd%bd%e7%9a%84%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e4%b8%8b%e7%9a%84%e6%89%80%e6%9c%89%e6%96%87%e4%bb%b6" aria-label="4、启动成功后停止容器，删除挂载的工作目录下的所有文件">4、启动成功后停止容器，删除挂载的工作目录下的所有文件</a></li>
+                <li>
+                    <a href="#5%e5%b0%86%e5%8e%9f%e6%9d%a5%e5%8e%8b%e7%bc%a9%e5%a5%bd%e7%9a%84-jenkins-%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e8%a7%a3%e5%8e%8b%e8%87%b3%e4%b8%8a%e4%b8%80%e6%ad%a5%e5%ae%b9%e5%99%a8%e6%8c%82%e8%bd%bd%e7%9a%84%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e4%b8%8b" aria-label="5、将原来压缩好的 Jenkins 工作目录解压至上一步容器挂载的工作目录下">5、将原来压缩好的 Jenkins 工作目录解压至上一步容器挂载的工作目录下</a></li>
+                <li>
+                    <a href="#6%e5%90%af%e5%8a%a8%e5%88%9a%e5%88%9a%e5%81%9c%e6%ad%a2%e7%9a%84-jenkins-%e5%ae%b9%e5%99%a8%e7%94%a8%e6%88%b7%e5%90%8d%e5%92%8c%e5%af%86%e7%a0%81%e9%83%bd%e8%bf%98%e6%98%af%e5%8e%9f%e6%9d%a5%e7%9a%84%e8%87%b3%e6%ad%a4%e8%bf%81%e7%a7%bb%e5%ae%8c%e6%88%90" aria-label="6、启动刚刚停止的 Jenkins 容器，用户名和密码都还是原来的，至此迁移完成。">6、启动刚刚停止的 Jenkins 容器，用户名和密码都还是原来的，至此迁移完成。</a></li></ul>
+                </li>
+                <li>
+                    <a href="#%e4%ba%8c%e5%ae%8c%e6%95%b4%e8%bf%81%e7%a7%bb%e6%96%b9%e6%b3%95%e5%8c%85%e5%90%ab%e5%ae%b9%e5%99%a8" aria-label="二、完整迁移方法（包含容器）">二、完整迁移方法（包含容器）</a><ul>
+                        
+                <li>
+                    <a href="#0%e5%85%88%e5%b0%86%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e5%8e%8b%e7%bc%a9%e5%90%8e%e4%bc%a0%e5%88%b0%e7%9b%ae%e6%a0%87%e6%9c%ba%e5%99%a8%e4%b8%8a%e5%8f%82%e7%85%a7%e4%b8%8a%e6%96%b9%e5%bf%ab%e9%80%9f%e8%bf%81%e7%a7%bb%e6%96%b9%e6%b3%95%e7%9a%8412%e6%ad%a5" aria-label="0、先将工作目录压缩后传到目标机器上，参照上方快速迁移方法的1、2步">0、先将工作目录压缩后传到目标机器上，参照上方<strong>快速迁移方法</strong>的1、2步</a></li>
+                <li>
+                    <a href="#1%e6%9f%a5%e7%9c%8b%e5%ae%b9%e5%99%a8%e8%bf%90%e8%a1%8c%e7%8a%b6%e6%80%81" aria-label="1、查看容器运行状态">1、查看容器运行状态</a></li>
+                <li>
+                    <a href="#2%e6%89%a7%e8%a1%8c-docker-commit-%e5%91%bd%e4%bb%a4%e5%b0%86%e5%ae%b9%e5%99%a8%e4%bf%9d%e5%ad%98%e4%b8%ba%e9%95%9c%e5%83%8f" aria-label="2、执行 docker commit 命令将容器保存为镜像">2、执行 docker commit 命令将容器保存为镜像</a></li>
+                <li>
+                    <a href="#3%e6%9f%a5%e7%9c%8b%e9%95%9c%e5%83%8f-docker-images" aria-label="3、查看镜像 docker images">3、查看镜像 docker images</a></li>
+                <li>
+                    <a href="#4%e5%b0%86%e9%95%9c%e5%83%8f%e4%bf%9d%e5%ad%98%e4%b8%ba%e5%8e%8b%e7%bc%a9%e6%96%87%e4%bb%b6-docker-save" aria-label="4、将镜像保存为压缩文件 docker save">4、将镜像保存为压缩文件 docker save</a></li>
+                <li>
+                    <a href="#5%e5%b0%86%e5%8e%8b%e7%bc%a9%e5%a5%bd%e7%9a%84tar%e6%96%87%e4%bb%b6%e7%a7%bb%e5%88%b0%e6%96%b0%e6%9c%ba%e5%99%a8" aria-label="5、将压缩好的tar文件移到新机器">5、将压缩好的tar文件移到新机器</a></li>
+                <li>
+                    <a href="#6%e5%88%9b%e5%bb%ba-jenkins-%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e5%b9%b6%e8%b5%8b%e4%ba%88%e6%9d%83%e9%99%90" aria-label="6、创建 Jenkins 工作目录并赋予权限">6、创建 Jenkins 工作目录并赋予权限</a></li>
+                <li>
+                    <a href="#7%e6%89%a7%e8%a1%8c%e5%91%bd%e4%bb%a4%e5%90%af%e5%8a%a8-jenkins" aria-label="7、执行命令启动 Jenkins">7、执行命令启动 Jenkins</a></li>
+                <li>
+                    <a href="#8%e5%8f%82%e7%85%a7%e4%b8%8a%e6%96%b9%e5%bf%ab%e9%80%9f%e8%bf%81%e7%a7%bb%e6%96%b9%e6%b3%95%e7%9a%84456%e6%ad%a5%e5%b0%86%e5%8e%9f%e6%9d%a5%e7%9a%84%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95%e6%9b%bf%e6%8d%a2%e6%8e%89%e7%8e%b0%e5%9c%a8%e7%9a%84%e5%8d%b3%e5%8f%af" aria-label="8、参照上方快速迁移方法的4、5、6步将原来的工作目录替换掉现在的即可。">8、参照上方<strong>快速迁移方法</strong>的4、5、6步将原来的工作目录替换掉现在的即可。</a></li></ul>
+                </li>
+                <li>
+                    <a href="#ps" aria-label="PS:">PS:</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+
+  <div class="post-content"><h2 id="一快速迁移方法">一、快速迁移方法<a hidden class="anchor" aria-hidden="true" href="#一快速迁移方法">#</a></h2>
+<h3 id="1将-jenkins-工作目录打包压缩因为-jenkins-的所有配置都存放在工作目录下所以我们迁移工作目录下的内容即可">1、将 Jenkins 工作目录打包压缩。（因为 Jenkins 的所有配置都存放在工作目录下，所以我们迁移工作目录下的内容即可）<a hidden class="anchor" aria-hidden="true" href="#1将-jenkins-工作目录打包压缩因为-jenkins-的所有配置都存放在工作目录下所以我们迁移工作目录下的内容即可">#</a></h3>
+<p>1.1、进入容器挂载的 Jenkins 工作目录，如果没有挂载，则进入容器，默认的工作目录是：/var/jenkins_home。此目录下又两个文件夹占用空间很大，为：./workspace 和 ./caches 第一个是保存的拉取下的代码和编译源文件，第二个是缓存文件，都可以删除掉已节省打包后的文件大小。<strong>保险起见先备份到另一个位置再删除。</strong></p>
+<p>1.2、执行命令压缩目录</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">#第一个参数为压缩后到文件名，第二个为你要压缩到目录所在位置</span>
+</span></span><span style="display:flex;"><span>tar -cvf jenkins_home.tar /home/data/jenkins_home/
+</span></span></code></pre></div><h3 id="2将压缩包迁移至要部署的新机器中我这用的-scp-命令">2、将压缩包迁移至要部署的新机器中，我这用的 scp 命令<a hidden class="anchor" aria-hidden="true" href="#2将压缩包迁移至要部署的新机器中我这用的-scp-命令">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>scp jenkins_home.tar root@IP地址:/root
+</span></span><span style="display:flex;"><span>1.会提示一段确认信息，输入yes后回车
+</span></span><span style="display:flex;"><span>2.提示输入目标机器登录密码，输入后回车
+</span></span></code></pre></div><h3 id="3在新机器上启动一个全新的-jenkins-容器并挂载好工作目录">3、在新机器上启动一个全新的 Jenkins 容器，并挂载好工作目录<a hidden class="anchor" aria-hidden="true" href="#3在新机器上启动一个全新的-jenkins-容器并挂载好工作目录">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">#我这是拉取的私人仓库的镜像，如果没有初始镜像的话，可以将最后的镜像名替换为：jenkins/jenkins:latest （来源：DockerHub）</span>
+</span></span><span style="display:flex;"><span>docker run -d --privileged=<span style="color:#fff;font-weight:bold">true</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--name jenkins-hercules -p 8010:8080 -p 50000:50000 <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--restart=always <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>-v /home/jenkins/data/jenkins_home:/var/jenkins_home <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>-v /var/run/docker.sock:/var/run/docker.sock <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>-v /usr/bin/docker:/usr/bin/docker <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>-v /etc/localtime:/etc/localtime <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--user root <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>jenkins-image
+</span></span></code></pre></div><h3 id="4启动成功后停止容器删除挂载的工作目录下的所有文件">4、启动成功后停止容器，删除挂载的工作目录下的所有文件<a hidden class="anchor" aria-hidden="true" href="#4启动成功后停止容器删除挂载的工作目录下的所有文件">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>rm -rf /home/jenkins/data/*
+</span></span></code></pre></div><h3 id="5将原来压缩好的-jenkins-工作目录解压至上一步容器挂载的工作目录下">5、将原来压缩好的 Jenkins 工作目录解压至上一步容器挂载的工作目录下<a hidden class="anchor" aria-hidden="true" href="#5将原来压缩好的-jenkins-工作目录解压至上一步容器挂载的工作目录下">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#fff;font-weight:bold">cd</span> /home/jenkins/data/
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 解压至当前目录下</span>
+</span></span><span style="display:flex;"><span>tar -zxvf ~/jenkins_home.tar
+</span></span></code></pre></div><h3 id="6启动刚刚停止的-jenkins-容器用户名和密码都还是原来的至此迁移完成">6、启动刚刚停止的 Jenkins 容器，用户名和密码都还是原来的，至此迁移完成。<a hidden class="anchor" aria-hidden="true" href="#6启动刚刚停止的-jenkins-容器用户名和密码都还是原来的至此迁移完成">#</a></h3>
+<h2 id="二完整迁移方法包含容器">二、完整迁移方法（包含容器）<a hidden class="anchor" aria-hidden="true" href="#二完整迁移方法包含容器">#</a></h2>
+<h3 id="0先将工作目录压缩后传到目标机器上参照上方快速迁移方法的12步">0、先将工作目录压缩后传到目标机器上，参照上方<strong>快速迁移方法</strong>的1、2步<a hidden class="anchor" aria-hidden="true" href="#0先将工作目录压缩后传到目标机器上参照上方快速迁移方法的12步">#</a></h3>
+<h3 id="1查看容器运行状态">1、查看容器运行状态<a hidden class="anchor" aria-hidden="true" href="#1查看容器运行状态">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker ps -a
+</span></span><span style="display:flex;"><span>d796453c4ca1   jenkins:1.0   <span style="color:#0ff;font-weight:bold">&#34;/sbin/tini -- /usr/…&#34;</span>   <span style="color:#ff0;font-weight:bold">11</span> months ago   Up <span style="color:#ff0;font-weight:bold">6</span> hours     0.0.0.0:50000-&gt;50000/tcp, :::50000-&gt;50000/tcp, 0.0.0.0:8010-&gt;8080/tcp, :::8010-&gt;8080/tcp                                             jenkins
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># ps:我这个容器是在在启动jenkins时就把工作目录挂载到宿主机上了，如果没有挂载，请进入容器，默认的工作目录是：/var/jenkins_home。</span>
+</span></span></code></pre></div><h3 id="2执行-docker-commit-命令将容器保存为镜像">2、执行 docker commit 命令将容器保存为镜像<a hidden class="anchor" aria-hidden="true" href="#2执行-docker-commit-命令将容器保存为镜像">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker commit jenkins(容器名)  jenkins-image(镜像名)
+</span></span></code></pre></div><h3 id="3查看镜像-docker-images">3、查看镜像 docker images<a hidden class="anchor" aria-hidden="true" href="#3查看镜像-docker-images">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>REPOSITORY            TAG                IMAGE ID       CREATED         SIZE
+</span></span><span style="display:flex;"><span>jenkins-image        latest             4a12d5121f83   <span style="color:#ff0;font-weight:bold">6</span> hours ago     3.59GB
+</span></span></code></pre></div><h3 id="4将镜像保存为压缩文件-docker-save">4、将镜像保存为压缩文件 docker save<a hidden class="anchor" aria-hidden="true" href="#4将镜像保存为压缩文件-docker-save">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker save -o jenkins.tar（文件名） jenkins-image(镜像名)
+</span></span></code></pre></div><h3 id="5将压缩好的tar文件移到新机器">5、将压缩好的tar文件移到新机器<a hidden class="anchor" aria-hidden="true" href="#5将压缩好的tar文件移到新机器">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#007f7f">#通过 scp 命令直接发送到新机器中，或者push 到 DockerHub 在 Pull到目标机器</span>
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#执行 docker load 将文件导入为镜像</span>
+</span></span><span style="display:flex;"><span>docker load -i jenkins.tar（文件名）
+</span></span></code></pre></div><h3 id="6创建-jenkins-工作目录并赋予权限">6、创建 Jenkins 工作目录并赋予权限<a hidden class="anchor" aria-hidden="true" href="#6创建-jenkins-工作目录并赋予权限">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir -p /home/jenkins/data/jenkins_home/
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#设置目录权限</span>
+</span></span><span style="display:flex;"><span>chmod -R <span style="color:#ff0;font-weight:bold">777</span> /home/jenkins/
+</span></span><span style="display:flex;"><span><span style="color:#007f7f">#给docker.sock授予权限</span>
+</span></span><span style="display:flex;"><span>chmod <span style="color:#ff0;font-weight:bold">777</span> /var/run/docker.sock
+</span></span></code></pre></div><h3 id="7执行命令启动-jenkins">7、执行命令启动 Jenkins<a hidden class="anchor" aria-hidden="true" href="#7执行命令启动-jenkins">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -d --privileged=<span style="color:#fff;font-weight:bold">true</span> <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--name jenkins-hercules -p 8010:8080 -p 50000:50000 <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--restart=always <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>-v /home/jenkins/data/jenkins_home:/var/jenkins_home <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>-v /var/run/docker.sock:/var/run/docker.sock <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>-v /usr/bin/docker:/usr/bin/docker <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>-v /etc/localtime:/etc/localtime <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>--user root <span style="color:#0ff;font-weight:bold">\
+</span></span></span><span style="display:flex;"><span><span style="color:#0ff;font-weight:bold"></span>jenkins-image
+</span></span></code></pre></div><h3 id="8参照上方快速迁移方法的456步将原来的工作目录替换掉现在的即可">8、参照上方<strong>快速迁移方法</strong>的4、5、6步将原来的工作目录替换掉现在的即可。<a hidden class="anchor" aria-hidden="true" href="#8参照上方快速迁移方法的456步将原来的工作目录替换掉现在的即可">#</a></h3>
+<h2 id="ps">PS:<a hidden class="anchor" aria-hidden="true" href="#ps">#</a></h2>
+<p>1、本来我认为保存了整个容器应该将原有的配置内容也都保存了，但启动后我访问 Jenkins 还是让我执行初始化的那些步骤，原来的配置都没了，暂时还没研究是什么原因导致，所以建议直接用<strong>快速迁移方法</strong>即可。</p>
+<p>2、如果你的 Jenkins 跑了很多流水线的话，实际上你要按照第二种方式备份你的镜像文件是巨大的，我这个将近 15GB 。通过删掉一些不必要的东西如：代码编译后的 Jar、缓存文件夹、maven仓库、npm软件包(前两个在工作目录下，后两个在容器的 root目录下，为隐藏文件夹，可通过 <strong>du -sh .[!.]</strong>* 显示隐藏目录)。清理后打包容器为镜像后还有 3.4G，如果服务器不是内网有带宽限制会导致文件传输巨慢，浪费时间。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://jiangjun8888.github.io/posts/tech/string.format%E6%96%B9%E6%B3%95%E4%BD%BF%E7%94%A8%E7%AC%94%E8%AE%B0/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>String.format方法使用笔记</span>
+  </a>
+  <a class="next" href="https://jiangjun8888.github.io/posts/tech/elasticsearch%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>ElasticSearch基础入门教程</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://jiangjun8888.github.io/">陆家嘴巨饿</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '📄复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '👌🏻已复制!';
+            setTimeout(() => {
+                copybutton.innerHTML = '📄复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

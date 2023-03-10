@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>ElasticSearch基础入门教程 | 陆家嘴巨饿</title>
+<meta name="keywords" content="">
+<meta name="description" content="一、ES 是什么？ Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。作为 Elastic Stack 的核心，Elasticsear">
+<meta name="author" content="Jiang Jun">
+<link rel="canonical" href="https://jiangjun8888.github.io/posts/tech/elasticsearch%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="apple-touch-icon" href="https://jiangjun8888.github.io/logo.jpeg">
+<link rel="mask-icon" href="https://jiangjun8888.github.io/logo.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+
+
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = ""; 
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<meta property="og:title" content="ElasticSearch基础入门教程" />
+<meta property="og:description" content="一、ES 是什么？ Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。作为 Elastic Stack 的核心，Elasticsear" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jiangjun8888.github.io/posts/tech/elasticsearch%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-11T16:34:15+08:00" />
+<meta property="article:modified_time" content="2023-03-11T16:34:15+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ElasticSearch基础入门教程"/>
+<meta name="twitter:description" content="一、ES 是什么？ Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。作为 Elastic Stack 的核心，Elasticsear"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://jiangjun8888.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "👨🏻‍💻 技术",
+      "item": "https://jiangjun8888.github.io/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "ElasticSearch基础入门教程",
+      "item": "https://jiangjun8888.github.io/posts/tech/elasticsearch%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ElasticSearch基础入门教程",
+  "name": "ElasticSearch基础入门教程",
+  "description": "一、ES 是什么？ Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。作为 Elastic Stack 的核心，Elasticsear",
+  "keywords": [
+    
+  ],
+  "articleBody": "一、ES 是什么？ Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。作为 Elastic Stack 的核心，Elasticsearch 会集中存储您的数据，让您飞快完成搜索，微调相关性，进行强大的分析，并轻松缩放规模。\n​\t上述描述摘自官网，当你能看到我这篇文章的时候，脑海里应该对 ES 有一个初步的概念了，可以把它理解为把数据存放在内存中的 MySQL，它最主要的功能是海量数据实时检索，比起传统的关系型数据库的优点是，没有磁盘 IO 开销，因为索引数据大部分都是存在于内存中的，我们可以通过 ES 提供的 Rest API 像通过 SQL 语句查询关系型数据库中的数据一样，官方的描述是这种查询语言称为 DSL。\nElasticsearch 提供了一个完整的基于 JSON 的查询 DSL（领域特定语言）来定义查询。将查询 DSL 视为查询的 AST（抽象语法树），由两种类型的子句组成：\n叶查询子句 \u003e \u003e 叶查询子句在特定字段中查找特定值，例如 match,term或 range查询。这些查询可以自己使用。\n复合查询子句 \u003e \u003e 复合查询子句包装其他叶查询或复合查询，用于以逻辑方式组合多个查询（例如 boolordis_max查询），或改变它们的行为（例如 constant_scorequery）。\nDSL 使用文档 \u003e \u003e https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl.html\n二、Kibana 是什么？ Kibana 使您能够塑造数据并在 Elastic Stack 中导航。使用 Kibana，您可以：\n搜索、观察和保护您的数据。 从发现文档到分析日志再到查找安全漏洞，Kibana 是您访问这些功能及更多功能的门户。 分析您的数据。 搜索隐藏的见解，可视化您在图表、仪表、地图、图形等中发现的内容，并将它们组合到仪表板中。 管理、监控和保护 Elastic Stack。 管理您的数据，监控 Elastic Stack 集群的健康状况，并控制哪些用户可以访问哪些功能。 Kibana 文档：https://www.elastic.co/guide/en/kibana/current/introduction.html ​\t可以将 Kibana 理解为方便我们发送 Rest API 请求的一个客户端，相当于专门为 ES 服务器打造的一个 Postman 。\n三、安装ES 、 Kibana ​\t安装前默认你的 Linux 已经具备了 docker、 docker-compose 环境，将下面的配置文件保存为名称是：docker-compose.yml 的文件。\nversion: '3.5' services: elasticsearch: container_name: elasticsearch build: context: services/elasticsearch args: - ES_VER=7.5.0 ports: - \"9200:9200\" - \"9300:9300\" environment: ES_JAVA_OPTS: \"-Xms512m -Xmx512m\" #设置使用jvm内存大小 discovery.type: single-node #以单一节点模式启动 # ELASTIC_PASSWORD: 123456 #设置ES密码 privileged: true volumes: - ./data/elasticsearch/plugins/:/usr/share/elasticsearch/plugins/ - ./data/elasticsearch/:/usr/share/elasticsearch/data/ - ./logs/elasticsearch/:/usr/share/elasticsearch/logs/ - ./services/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml kibana: container_name: kibana build: context: services/kibana args: - KIBANA_VER=7.5.0 ports: - \"5601:5601\" privileged: true volumes: - ./services/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml depends_on: - elasticsearch ​\t创建好文件后，在文件所属的目录下执行命令： docker-compose -f docker-compose.yml up -d （-d : 在后台所有启动服务, -f : 指定使用的Compose模板文件，默认为docker-compose.yml，可以多次指定。）我这里是安装的 7.5.0 的 ES 版本，Kibana 的版本与之对应，假设设置了 ES 密码，那么后续请求 ES 服务都需要带上身份验证信息，Kibana 也需要输入账户名、密码登录， 账户名默认为：elastic ，密码：yml 文件中设置的 ES 密码。\n四、向 ES 导入 Demo 数据 ​\t访问部署 Kibana 的机器, ip:5601，进入 Kibana 首页，点击网页做下架的展开菜单栏图标，选择 Dev Tools 选项，打开后，在网页左侧可以编写 DSL 语句，向 ES 发送请求，右侧显示相应结果。执行的命令如下,将内容粘贴至 Kibana中，将光标放置在 ：POST bank/_bulk 这一行，行尾右侧边栏回显示一个三角形和一个扳手图标，点击三角形发送请求保存数据。\nPOST bank/_bulk # 粘贴这个网页中的文档数据在下方然后点击执行（感谢此作者）：https://gitee.com/xlh_blog/common_content/blob/master/es%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE.json# 五、ES 入门测试 将以下文档创建名为：ES 7.5.postman_collection.json 的 JSON 文件，然后点击 Postman 左上角的 Import 按钮选中文件导入即可。\n{ \"info\": { \"_postman_id\": \"34d02b44-25de-46e9-b4d2-c03f9e223ffd\", \"name\": \"ES 7.5\", \"schema\": \"https://schema.getpostman.com/json/collection/v2.1.0/collection.json\", \"_exporter_id\": \"11045914\" }, \"item\": [ { \"name\": \"查看版本\", \"request\": { \"method\": \"GET\", \"header\": [], \"url\": { \"raw\": \"http://localhost:9200\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\" } }, \"response\": [] }, { \"name\": \"查看节点信息\", \"request\": { \"method\": \"GET\", \"header\": [], \"url\": { \"raw\": \"http://localhost:9200/_cat/nodes\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\", \"path\": [ \"_cat\", \"nodes\" ] } }, \"response\": [] }, { \"name\": \"查看主节点信息\", \"request\": { \"method\": \"GET\", \"header\": [], \"url\": { \"raw\": \"http://localhost:9200/_cat/master\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\", \"path\": [ \"_cat\", \"master\" ] } }, \"response\": [] }, { \"name\": \"查看所有索引\", \"request\": { \"method\": \"GET\", \"header\": [], \"url\": { \"raw\": \"http://localhost:9200/_cat/indices\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\", \"path\": [ \"_cat\", \"indices\" ] } }, \"response\": [] }, { \"name\": \"PUT指定ID保存\", \"request\": { \"method\": \"PUT\", \"header\": [], \"body\": { \"mode\": \"raw\", \"raw\": \"{\\n \\\"name\\\" : \\\"jack\\\"\\n}\", \"options\": { \"raw\": { \"language\": \"json\" } } }, \"url\": { \"raw\": \"http://localhost:9200/student/one/1\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\", \"path\": [ \"student\", \"one\", \"1\" ] } }, \"response\": [] }, { \"name\": \"POST保存\", \"request\": { \"method\": \"POST\", \"header\": [], \"body\": { \"mode\": \"raw\", \"raw\": \"{\\n \\\"name\\\" : \\\"jack1\\\"\\n}\", \"options\": { \"raw\": { \"language\": \"json\" } } }, \"url\": { \"raw\": \"http://localhost:9200/student/one/q1eYgIUBGSRCIL0j0d7A\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\", \"path\": [ \"student\", \"one\", \"q1eYgIUBGSRCIL0j0d7A\" ] }, \"description\": \"可自动生成ID/指定ID相当于修改，PUT必须指定ID\" }, \"response\": [] }, { \"name\": \"根据ID查询数据\", \"request\": { \"method\": \"GET\", \"header\": [], \"url\": { \"raw\": \"http://localhost:9200/student/one/1\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\", \"path\": [ \"student\", \"one\", \"1\" ] } }, \"response\": [] }, { \"name\": \"删除指定ID数据\", \"request\": { \"method\": \"DELETE\", \"header\": [], \"url\": { \"raw\": \"http://localhost:9200/student/one/1\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\", \"path\": [ \"student\", \"one\", \"1\" ] } }, \"response\": [] }, { \"name\": \"删除索引\", \"request\": { \"method\": \"DELETE\", \"header\": [], \"url\": { \"raw\": \"http://localhost:9200/student\", \"protocol\": \"http\", \"host\": [ \"localhost\" ], \"port\": \"9200\", \"path\": [ \"student\" ] } }, \"response\": [] } ] } 六、ES 基础请求 DSL 以下执行语句请在 Kibana 的 Dev Tools 中执行\n## 查询所有 GET bank/_search { \"query\": { \"match_all\": {} }, \"sort\": [ { \"account_number\": \"desc\" }, { \"balance\": \"asc\" } ], \"from\": 0, \"size\": 20, \"_source\": [\"balance\",\"firstname\"] } ## 全文检索:会将查询条件分词，任意一个匹配都算匹配 GET bank/_search { \"query\": { \"match\": { \"address\": \"mail one\" } } } ## 短语匹配：不会将查询条件分词，作为一个完整的词去搜索 ## 也可以使用字段.keyword 精确匹配，必须是值和搜索值完全相等 GET bank/_search { \"query\": { \"match_phrase\": { \"address\": \"mail one\" } } } ## 多字段匹配,多个字段任意匹配,会分词查询 GET bank/_search { \"query\": { \"multi_match\": { \"query\": \"mill one\", \"fields\": [\"address\",\"firstname\"] } } } ## bool 复合查询，条件都要满足 and ## must:数组中的条件都要满足 must_not:都不满足 should == or 不是必须满足 GET bank/_search { \"query\": { \"bool\": { \"must\": [ { \"match\": { \"address\": \"mill\" } }, { \"match_phrase\": { \"firstname\": \"mill\" } } ], \"must_not\": [ { \"match\": { \"address\": \"abc\" } } ], \"should\": [ { \"match\": { \"FIELD\": \"TEXT\" } } ] } } } ## filter:筛选结果，不计算相关性得分 GET bank/_search { \"query\": { \"bool\": { \"filter\": { \"range\": { \"age\": { \"gte\": 10, \"lte\": 20 } } } } } } ## 非文本字段检索推荐term GET bank/_search { \"query\": { \"term\": { \"age\": { \"value\": 28 } } } } ## 搜索address中包含mi1l的所有人的年龄分布以及平均年龄 GET bank/_search { \"query\": { \"match\": { \"address\": \"mill\" } }, \"aggs\": { \"ageAgg\": { \"terms\": { \"field\": \"age\", \"size\": 10 } }, \"ageAvg\": { \"avg\": { \"field\": \"age\" } } } } ## 按照年龄聚合，并且请求这些年龄段的这些人的平均薪资 GET bank/_search { \"query\": { \"match_all\": {} }, \"aggs\": { \"ageAgg\": { \"terms\": { \"field\": \"age\" }, \"aggs\": { \"balanceAvg\": { \"avg\": { \"field\": \"balance\" } } } } }, \"size\": 0 } ## 查出所有年龄分布，并且这些年龄段中M的平均薪资和F的平均薪资以及这个年龄段的总体平均薪资 GET bank/_search { \"query\": { \"match_all\": {} }, \"aggs\": { \"ageAgg\": { \"terms\": { \"field\": \"age\" }, \"aggs\": { \"balanceAvg\" :{ \"avg\": { \"field\": \"balance\" } }, \"genderAgg\": { \"terms\": { \"field\": \"gender.keyword\", \"size\": 10 }, \"aggs\": { \"genderBalanceAvg\": { \"avg\": { \"field\": \"balance\" } } } } } } }, \"size\": 0 } ## 新建索引时指定字段类型 PUT /my-index { \"mappings\": { \"properties\": { \"age\": { \"type\": \"integer\" }, \"email\": { \"type\": \"keyword\" }, \"name\": { \"type\": \"text\" } } } } ## 新建索引后添加字段映射，index:false 不参与搜索 PUT /my-index/_mapping { \"properties\" : { \"id\" : { \"type\" : \"long\", \"index\" : false } } } ## 查看索引字段类型 GET my-index/_mapping ## es指定好映射规则后不允许修改，想要修改只能创建一个新的索引，然后把原有的数据迁移到新索引 GET bank/_mapping ## 创建新索引 指定映射关系 PUT /bank1/ { \"mappings\": { \"properties\" : { \"account_number\" : { \"type\" : \"long\" }, \"address\" : { \"type\" : \"text\" }, \"age\" : { \"type\" : \"long\" }, \"balance\" : { \"type\" : \"long\" }, \"city\" : { \"type\" : \"keyword\" }, \"email\" : { \"type\" : \"text\", \"fields\" : { \"keyword\" : { \"type\" : \"keyword\", \"ignore_above\" : 256 } } }, \"employer\" : { \"type\" : \"text\", \"fields\" : { \"keyword\" : { \"type\" : \"keyword\", \"ignore_above\" : 256 } } }, \"firstname\" : { \"type\" : \"text\", \"fields\" : { \"keyword\" : { \"type\" : \"keyword\", \"ignore_above\" : 256 } } }, \"gender\" : { \"type\" : \"text\", \"fields\" : { \"keyword\" : { \"type\" : \"keyword\", \"ignore_above\" : 256 } } }, \"lastname\" : { \"type\" : \"text\", \"fields\" : { \"keyword\" : { \"type\" : \"keyword\", \"ignore_above\" : 256 } } }, \"state\" : { \"type\" : \"text\", \"fields\" : { \"keyword\" : { \"type\" : \"keyword\", \"ignore_above\" : 256 } } } } } } ## 迁移数据到新索引中 POST _reindex { \"source\": { \"index\": \"bank\", \"type\": \"account\" }, \"dest\": { \"index\": \"bank1\" } } GET /bank1/_search { \"query\" : { \"match_all\" :{} } } ## 使用默认分词器进行分词 （仅支持英文） POST _analyze { \"analyzer\": \"standard\", \"text\": \"加油努力.\" } ## 使用IK分词器分词 ik_smart: 会做最粗粒度的拆分，适合 Phrase 查询。 POST _analyze { \"analyzer\": \"ik_smart\", \"text\": \"加油努力.\" } ## ik_max_word: 会将文本做最细粒度的拆分，会穷尽各种可能的组合，适合 Term Query； POST _analyze { \"analyzer\": \"ik_max_word\", \"text\": \"加油努力.\" } ## 发起批量保存请求 POST my-index/_bulk {\"index\":{\"_id\":\"1\"}} {\"age\" : 1, \"email\" : \"12345@qq.com\", \"id\" : \"1\", \"name\" : \"张三\"} {\"index\":{\"_id\":\"2\"}} {\"age\" : 21, \"email\" : \"12345@qq.com\", \"id\" : \"2\", \"name\" : \"李四\"} 七、相关文档链接 elasticsearch-analysis-ik ：IK分词器，安装了这个才支持对中文进行分词，下载与 ES 对应版本的 Releases 包，解压后放置在 ES 的 plugins 目录下重启 ES 即可。\nelasticsearch-head ：Elasticsearch 集群的可视化 Web 前端，相当于 Navicat 操作 MySQL。\nES 官方文档 ：英文好的同学可以直接翻阅官方文档学习 ES。\n",
+  "wordCount" : "3319",
+  "inLanguage": "en",
+  "datePublished": "2023-03-11T16:34:15+08:00",
+  "dateModified": "2023-03-11T16:34:15+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Jiang Jun"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jiangjun8888.github.io/posts/tech/elasticsearch%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "陆家嘴巨饿",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://jiangjun8888.github.io/img/logo.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://jiangjun8888.github.io/" accesskey="h" title="陆家嘴巨饿 (Alt + H)">
+                <img src="https://jiangjun8888.github.io/img/logo.jpeg" alt="" aria-label="logo"
+                    height="35">陆家嘴巨饿</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://jiangjun8888.github.io/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jiangjun8888.github.io/" title="🏠主页">
+                    <span>🏠主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jiangjun8888.github.io/posts" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://jiangjun8888.github.io/">🏠 主页</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+    <h1 class="post-title">
+      ElasticSearch基础入门教程
+    </h1>
+    <div class="post-meta"><style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2023-03-11
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>3319字
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>7分钟阅读
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>Jiang Jun
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+        </span>
+    </span>
+</span>
+
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">文章目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#%e4%b8%80es-%e6%98%af%e4%bb%80%e4%b9%88" aria-label="一、ES 是什么？">一、ES 是什么？</a></li>
+                <li>
+                    <a href="#%e4%ba%8ckibana-%e6%98%af%e4%bb%80%e4%b9%88" aria-label="二、Kibana 是什么？">二、Kibana 是什么？</a></li>
+                <li>
+                    <a href="#%e4%b8%89%e5%ae%89%e8%a3%85es--kibana" aria-label="三、安装ES 、 Kibana">三、安装ES 、 Kibana</a></li>
+                <li>
+                    <a href="#%e5%9b%9b%e5%90%91-es-%e5%af%bc%e5%85%a5-demo-%e6%95%b0%e6%8d%ae" aria-label="四、向 ES 导入 Demo 数据">四、向 ES 导入 Demo 数据</a></li>
+                <li>
+                    <a href="#%e4%ba%94es-%e5%85%a5%e9%97%a8%e6%b5%8b%e8%af%95" aria-label="五、ES 入门测试">五、ES 入门测试</a></li>
+                <li>
+                    <a href="#%e5%85%ades-%e5%9f%ba%e7%a1%80%e8%af%b7%e6%b1%82-dsl" aria-label="六、ES 基础请求 DSL">六、ES 基础请求 DSL</a></li>
+                <li>
+                    <a href="#%e4%b8%83%e7%9b%b8%e5%85%b3%e6%96%87%e6%a1%a3%e9%93%be%e6%8e%a5" aria-label="七、相关文档链接">七、相关文档链接</a>
+                </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+
+  <div class="post-content"><h2 id="一es-是什么">一、ES 是什么？<a hidden class="anchor" aria-hidden="true" href="#一es-是什么">#</a></h2>
+<blockquote>
+<p>Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。作为 Elastic Stack 的核心，Elasticsearch 会集中存储您的数据，让您飞快完成搜索，微调相关性，进行强大的分析，并轻松缩放规模。</p>
+</blockquote>
+<p>​		上述描述摘自官网，当你能看到我这篇文章的时候，脑海里应该对 ES 有一个初步的概念了，可以把它理解为把数据存放在内存中的 MySQL，它最主要的功能是海量数据实时检索，比起传统的关系型数据库的优点是，没有磁盘 IO 开销，因为索引数据大部分都是存在于内存中的，我们可以通过 ES 提供的 Rest API 像通过 SQL 语句查询关系型数据库中的数据一样，官方的描述是这种查询语言称为 DSL。</p>
+<blockquote>
+<p>Elasticsearch 提供了一个完整的基于 JSON 的查询 DSL（领域特定语言）来定义查询。将查询 DSL 视为查询的 AST（抽象语法树），由两种类型的子句组成：</p>
+<ul>
+<li>
+<p><strong>叶查询子句</strong>
+&gt;
+&gt;       叶查询子句在特定字段中查找特定值，例如 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-match-query.html"><code>match</code></a>,<a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-term-query.html"><code>term</code></a>或 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-range-query.html"><code>range</code></a>查询。这些查询可以自己使用。</p>
+</li>
+<li>
+<p><strong>复合查询子句</strong>
+&gt;
+&gt;       复合查询子句包装其他叶查询<strong>或</strong>复合查询，用于以逻辑方式组合多个查询（例如 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-bool-query.html"><code>bool</code></a>or<a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-dis-max-query.html"><code>dis_max</code></a>查询），或改变它们的行为（例如 <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl-constant-score-query.html"><code>constant_score</code></a>query）。</p>
+</li>
+<li>
+<p><strong>DSL 使用文档</strong>
+&gt;
+&gt;       <a href="https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl.html">https://www.elastic.co/guide/en/elasticsearch/reference/7.17/query-dsl.html</a></p>
+</li>
+</ul>
+</blockquote>
+<h2 id="二kibana-是什么">二、Kibana 是什么？<a hidden class="anchor" aria-hidden="true" href="#二kibana-是什么">#</a></h2>
+<blockquote>
+<p>Kibana 使您能够塑造数据并在 Elastic Stack 中导航。使用 Kibana，您可以：</p>
+<ul>
+<li><strong>搜索、观察和保护您的数据。</strong> 从发现文档到分析日志再到查找安全漏洞，Kibana 是您访问这些功能及更多功能的门户。</li>
+<li><strong>分析您的数据。</strong> 搜索隐藏的见解，可视化您在图表、仪表、地图、图形等中发现的内容，并将它们组合到仪表板中。</li>
+<li><strong>管理、监控和保护 Elastic Stack。</strong> 管理您的数据，监控 Elastic Stack 集群的健康状况，并控制哪些用户可以访问哪些功能。</li>
+<li><strong>Kibana 文档</strong>：https://www.elastic.co/guide/en/kibana/current/introduction.html</li>
+</ul>
+</blockquote>
+<p>​		可以将 Kibana 理解为方便我们发送 Rest API 请求的一个客户端，相当于专门为 ES 服务器打造的一个 Postman 。</p>
+<h2 id="三安装es--kibana">三、安装ES 、 Kibana<a hidden class="anchor" aria-hidden="true" href="#三安装es--kibana">#</a></h2>
+<p>​		安装前默认你的 Linux 已经具备了 docker、 docker-compose 环境，将下面的配置文件保存为名称是：docker-compose.yml 的文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="font-weight:bold">version</span>: <span style="color:#0ff;font-weight:bold">&#39;3.5&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="font-weight:bold">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">elasticsearch</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">container_name</span>: elasticsearch
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">build</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">context</span>: services/elasticsearch
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">args</span>:
+</span></span><span style="display:flex;"><span>        - ES_VER=7.5.0
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#0ff;font-weight:bold">&#34;9200:9200&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#0ff;font-weight:bold">&#34;9300:9300&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">ES_JAVA_OPTS</span>: <span style="color:#0ff;font-weight:bold">&#34;-Xms512m -Xmx512m&#34;</span>    <span style="color:#007f7f">#设置使用jvm内存大小</span>
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">discovery.type</span>: single-node          <span style="color:#007f7f">#以单一节点模式启动</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#007f7f"># ELASTIC_PASSWORD: 123456     #设置ES密码</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">privileged</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumes</span>:
+</span></span><span style="display:flex;"><span>      - ./data/elasticsearch/plugins/:/usr/share/elasticsearch/plugins/
+</span></span><span style="display:flex;"><span>      - ./data/elasticsearch/:/usr/share/elasticsearch/data/
+</span></span><span style="display:flex;"><span>      - ./logs/elasticsearch/:/usr/share/elasticsearch/logs/
+</span></span><span style="display:flex;"><span>      - ./services/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+</span></span><span style="display:flex;"><span>      
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">kibana</span>:
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">container_name</span>: kibana
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">build</span>:
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">context</span>: services/kibana
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">args</span>:
+</span></span><span style="display:flex;"><span>        - KIBANA_VER=7.5.0
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#0ff;font-weight:bold">&#34;5601:5601&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">privileged</span>: <span style="color:#fff;font-weight:bold">true</span>
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">volumes</span>:
+</span></span><span style="display:flex;"><span>      - ./services/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">depends_on</span>:
+</span></span><span style="display:flex;"><span>      - elasticsearch
+</span></span></code></pre></div><p>​		创建好文件后，在文件所属的目录下执行命令： <strong>docker-compose -f docker-compose.yml up -d</strong>   （-d : 在后台所有启动服务, -f : 指定使用的Compose模板文件，默认为docker-compose.yml，可以多次指定。）我这里是安装的 7.5.0 的 ES 版本，Kibana 的版本与之对应，假设设置了 ES 密码，那么后续请求 ES 服务都需要带上身份验证信息，Kibana 也需要输入账户名、密码登录， 账户名默认为：elastic ，密码：yml 文件中设置的 ES 密码。</p>
+<h2 id="四向-es-导入-demo-数据">四、向 ES 导入 Demo 数据<a hidden class="anchor" aria-hidden="true" href="#四向-es-导入-demo-数据">#</a></h2>
+<p>​		访问部署 Kibana 的机器, ip:5601，进入 Kibana 首页，点击网页做下架的展开菜单栏图标，选择 Dev Tools 选项，打开后，在网页左侧可以编写 DSL 语句，向 ES 发送请求，右侧显示相应结果。执行的命令如下,将内容粘贴至 Kibana中，将光标放置在 ：<strong>POST bank/_bulk</strong> 这一行，行尾右侧边栏回显示一个三角形和一个扳手图标，点击三角形发送请求保存数据。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>POST bank/_bulk
+</span></span><span style="display:flex;"><span><span style="color:#007f7f"># 粘贴这个网页中的文档数据在下方然后点击执行（感谢此作者）：https://gitee.com/xlh_blog/common_content/blob/master/es%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE.json#</span>
+</span></span></code></pre></div><h2 id="五es-入门测试">五、ES 入门测试<a hidden class="anchor" aria-hidden="true" href="#五es-入门测试">#</a></h2>
+<p>将以下文档创建名为：ES 7.5.postman_collection.json 的 JSON 文件，然后点击 Postman 左上角的 Import 按钮选中文件导入即可。</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;info&#34;</span>: {
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&#34;_postman_id&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;34d02b44-25de-46e9-b4d2-c03f9e223ffd&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;ES 7.5&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&#34;schema&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;https://schema.getpostman.com/json/collection/v2.1.0/collection.json&#34;</span>,
+</span></span><span style="display:flex;"><span>		<span style="font-weight:bold">&#34;_exporter_id&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;11045914&#34;</span>
+</span></span><span style="display:flex;"><span>	},
+</span></span><span style="display:flex;"><span>	<span style="font-weight:bold">&#34;item&#34;</span>: [
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;查看版本&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;GET&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;查看节点信息&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;GET&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200/_cat/nodes&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;_cat&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;nodes&#34;</span>
+</span></span><span style="display:flex;"><span>					]
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;查看主节点信息&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;GET&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200/_cat/master&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;_cat&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;master&#34;</span>
+</span></span><span style="display:flex;"><span>					]
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;查看所有索引&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;GET&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200/_cat/indices&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;_cat&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;indices&#34;</span>
+</span></span><span style="display:flex;"><span>					]
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;PUT指定ID保存&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;PUT&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;body&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;mode&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;raw&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;{\n    \&#34;name\&#34; : \&#34;jack\&#34;\n}&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;options&#34;</span>: {
+</span></span><span style="display:flex;"><span>						<span style="font-weight:bold">&#34;raw&#34;</span>: {
+</span></span><span style="display:flex;"><span>							<span style="font-weight:bold">&#34;language&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;json&#34;</span>
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200/student/one/1&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;student&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;one&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>					]
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;POST保存&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;POST&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;body&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;mode&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;raw&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;{\n    \&#34;name\&#34; : \&#34;jack1\&#34;\n}&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;options&#34;</span>: {
+</span></span><span style="display:flex;"><span>						<span style="font-weight:bold">&#34;raw&#34;</span>: {
+</span></span><span style="display:flex;"><span>							<span style="font-weight:bold">&#34;language&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;json&#34;</span>
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200/student/one/q1eYgIUBGSRCIL0j0d7A&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;student&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;one&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;q1eYgIUBGSRCIL0j0d7A&#34;</span>
+</span></span><span style="display:flex;"><span>					]
+</span></span><span style="display:flex;"><span>				},
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;description&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;可自动生成ID/指定ID相当于修改，PUT必须指定ID&#34;</span>
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;根据ID查询数据&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;GET&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200/student/one/1&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;student&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;one&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>					]
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;删除指定ID数据&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;DELETE&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200/student/one/1&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;student&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;one&#34;</span>,
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>					]
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		},
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;name&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;删除索引&#34;</span>,
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;request&#34;</span>: {
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;method&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;DELETE&#34;</span>,
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;header&#34;</span>: [],
+</span></span><span style="display:flex;"><span>				<span style="font-weight:bold">&#34;url&#34;</span>: {
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;raw&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http://localhost:9200/student&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;protocol&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;http&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;host&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;localhost&#34;</span>
+</span></span><span style="display:flex;"><span>					],
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;port&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;9200&#34;</span>,
+</span></span><span style="display:flex;"><span>					<span style="font-weight:bold">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>						<span style="color:#0ff;font-weight:bold">&#34;student&#34;</span>
+</span></span><span style="display:flex;"><span>					]
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			},
+</span></span><span style="display:flex;"><span>			<span style="font-weight:bold">&#34;response&#34;</span>: []
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="六es-基础请求-dsl">六、ES 基础请求 DSL<a hidden class="anchor" aria-hidden="true" href="#六es-基础请求-dsl">#</a></h2>
+<p>以下执行语句请在 Kibana  的 Dev Tools 中执行</p>
+<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">查询所有</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;match_all&#34;</span>: {}
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;sort&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;account_number&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;desc&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;balance&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;asc&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;from&#34;</span>: <span style="color:#ff0;font-weight:bold">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;size&#34;</span>: <span style="color:#ff0;font-weight:bold">20</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;_source&#34;</span>: [<span style="color:#0ff;font-weight:bold">&#34;balance&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;firstname&#34;</span>]
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">全文检索:会将查询条件分词，任意一个匹配都算匹配</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;match&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;address&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;mail one&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">短语匹配：不会将查询条件分词，作为一个完整的词去搜索</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">也可以使用字段.keyword</span> <span style="color:#f00">精确匹配，必须是值和搜索值完全相等</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;match_phrase&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;address&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;mail one&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">多字段匹配,多个字段任意匹配,会分词查询</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;multi_match&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;query&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;mill one&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;fields&#34;</span>: [<span style="color:#0ff;font-weight:bold">&#34;address&#34;</span>,<span style="color:#0ff;font-weight:bold">&#34;firstname&#34;</span>]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">bool</span> <span style="color:#f00">复合查询，条件都要满足</span> <span style="color:#f00">and</span> 
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">must:数组中的条件都要满足</span> <span style="color:#f00">must_not:都不满足</span> <span style="color:#f00">should</span> <span style="color:#f00">==</span> <span style="color:#f00">or</span> <span style="color:#f00">不是必须满足</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;bool&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;must&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;match&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;address&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;mill&#34;</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;match_phrase&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;firstname&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;mill&#34;</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;must_not&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;match&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;address&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;abc&#34;</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;should&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;match&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;FIELD&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;TEXT&#34;</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ]
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">filter:筛选结果，不计算相关性得分</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;bool&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;filter&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;range&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;age&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;gte&#34;</span>: <span style="color:#ff0;font-weight:bold">10</span>,
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;lte&#34;</span>: <span style="color:#ff0;font-weight:bold">20</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">非文本字段检索推荐term</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;term&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;age&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;value&#34;</span>: <span style="color:#ff0;font-weight:bold">28</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">搜索address中包含mi</span><span style="color:#ff0;font-weight:bold">1</span><span style="color:#f00">l的所有人的年龄分布以及平均年龄</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;match&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;address&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;mill&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;aggs&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;ageAgg&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;terms&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;age&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;size&#34;</span>: <span style="color:#ff0;font-weight:bold">10</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;ageAvg&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;avg&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;age&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">按照年龄聚合，并且请求这些年龄段的这些人的平均薪资</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;match_all&#34;</span>: {}
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;aggs&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;ageAgg&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;terms&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;age&#34;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;aggs&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;balanceAvg&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;avg&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;balance&#34;</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;size&#34;</span>: <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">查出所有年龄分布，并且这些年龄段中M的平均薪资和F的平均薪资以及这个年龄段的总体平均薪资</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;match_all&#34;</span>: {}
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;aggs&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;ageAgg&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;terms&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;age&#34;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;aggs&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;balanceAvg&#34;</span> :{
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;avg&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;balance&#34;</span>
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;genderAgg&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;terms&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;gender.keyword&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;size&#34;</span>: <span style="color:#ff0;font-weight:bold">10</span>
+</span></span><span style="display:flex;"><span>          },
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;aggs&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;genderBalanceAvg&#34;</span>: {
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;avg&#34;</span>: {
+</span></span><span style="display:flex;"><span>                <span style="font-weight:bold">&#34;field&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;balance&#34;</span>
+</span></span><span style="display:flex;"><span>              }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;size&#34;</span>: <span style="color:#ff0;font-weight:bold">0</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">新建索引时指定字段类型</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">PUT</span> <span style="color:#f00">/my-index</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;mappings&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;properties&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;age&#34;</span>:    { <span style="font-weight:bold">&#34;type&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;integer&#34;</span> },  
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;email&#34;</span>:  { <span style="font-weight:bold">&#34;type&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;keyword&#34;</span>  }, 
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;name&#34;</span>:   { <span style="font-weight:bold">&#34;type&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>  }     
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">新建索引后添加字段映射，index:</span><span style="color:#fff;font-weight:bold">false</span> <span style="color:#f00">不参与搜索</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">PUT</span> <span style="color:#f00">/my-index/_mapping</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;properties&#34;</span> : {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;id&#34;</span> : {
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;long&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="font-weight:bold">&#34;index&#34;</span> : <span style="color:#fff;font-weight:bold">false</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">查看索引字段类型</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">my-index/_mapping</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">es指定好映射规则后不允许修改，想要修改只能创建一个新的索引，然后把原有的数据迁移到新索引</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">bank/_mapping</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">创建新索引</span> <span style="color:#f00">指定映射关系</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">PUT</span> <span style="color:#f00">/bank</span><span style="color:#ff0;font-weight:bold">1</span><span style="color:#f00">/</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;mappings&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;properties&#34;</span> : {
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;account_number&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;long&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;address&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;age&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;long&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;balance&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;long&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;city&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;keyword&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;email&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;fields&#34;</span> : {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;keyword&#34;</span> : {
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;keyword&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;ignore_above&#34;</span> : <span style="color:#ff0;font-weight:bold">256</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;employer&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;fields&#34;</span> : {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;keyword&#34;</span> : {
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;keyword&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;ignore_above&#34;</span> : <span style="color:#ff0;font-weight:bold">256</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;firstname&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;fields&#34;</span> : {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;keyword&#34;</span> : {
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;keyword&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;ignore_above&#34;</span> : <span style="color:#ff0;font-weight:bold">256</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;gender&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;fields&#34;</span> : {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;keyword&#34;</span> : {
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;keyword&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;ignore_above&#34;</span> : <span style="color:#ff0;font-weight:bold">256</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;lastname&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;fields&#34;</span> : {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;keyword&#34;</span> : {
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;keyword&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;ignore_above&#34;</span> : <span style="color:#ff0;font-weight:bold">256</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="font-weight:bold">&#34;state&#34;</span> : {
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;text&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="font-weight:bold">&#34;fields&#34;</span> : {
+</span></span><span style="display:flex;"><span>            <span style="font-weight:bold">&#34;keyword&#34;</span> : {
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;type&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;keyword&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="font-weight:bold">&#34;ignore_above&#34;</span> : <span style="color:#ff0;font-weight:bold">256</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">迁移数据到新索引中</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">POST</span> <span style="color:#f00">_reindex</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;source&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;index&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;bank&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;type&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;account&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;dest&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;index&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;bank1&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">GET</span> <span style="color:#f00">/bank</span><span style="color:#ff0;font-weight:bold">1</span><span style="color:#f00">/_search</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;query&#34;</span> : {
+</span></span><span style="display:flex;"><span>    <span style="font-weight:bold">&#34;match_all&#34;</span> :{}
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">使用默认分词器进行分词</span> <span style="color:#f00">（仅支持英文）</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">POST</span> <span style="color:#f00">_analyze</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;analyzer&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;standard&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;text&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;加油努力.&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">使用IK分词器分词</span> <span style="color:#f00">ik_smart:</span> <span style="color:#f00">会做最粗粒度的拆分，适合</span> <span style="color:#f00">Phrase</span> <span style="color:#f00">查询。</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">POST</span> <span style="color:#f00">_analyze</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;analyzer&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;ik_smart&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;text&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;加油努力.&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">ik_max_word:</span> <span style="color:#f00">会将文本做最细粒度的拆分，会穷尽各种可能的组合，适合</span> <span style="color:#f00">Term</span> <span style="color:#f00">Query；</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">POST</span> <span style="color:#f00">_analyze</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;analyzer&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;ik_max_word&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="font-weight:bold">&#34;text&#34;</span>: <span style="color:#0ff;font-weight:bold">&#34;加油努力.&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">##</span> <span style="color:#f00">发起批量保存请求</span>
+</span></span><span style="display:flex;"><span><span style="color:#f00">POST</span> <span style="color:#f00">my-index/_bulk</span>
+</span></span><span style="display:flex;"><span>{<span style="font-weight:bold">&#34;index&#34;</span>:{<span style="font-weight:bold">&#34;_id&#34;</span>:<span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>}}
+</span></span><span style="display:flex;"><span>{<span style="font-weight:bold">&#34;age&#34;</span> : <span style="color:#ff0;font-weight:bold">1</span>, <span style="font-weight:bold">&#34;email&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;12345@qq.com&#34;</span>, <span style="font-weight:bold">&#34;id&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;1&#34;</span>, <span style="font-weight:bold">&#34;name&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;张三&#34;</span>}
+</span></span><span style="display:flex;"><span>{<span style="font-weight:bold">&#34;index&#34;</span>:{<span style="font-weight:bold">&#34;_id&#34;</span>:<span style="color:#0ff;font-weight:bold">&#34;2&#34;</span>}}
+</span></span><span style="display:flex;"><span>{<span style="font-weight:bold">&#34;age&#34;</span> : <span style="color:#ff0;font-weight:bold">21</span>, <span style="font-weight:bold">&#34;email&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;12345@qq.com&#34;</span>, <span style="font-weight:bold">&#34;id&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;2&#34;</span>, <span style="font-weight:bold">&#34;name&#34;</span> : <span style="color:#0ff;font-weight:bold">&#34;李四&#34;</span>}
+</span></span></code></pre></div><h2 id="七相关文档链接">七、相关文档链接<a hidden class="anchor" aria-hidden="true" href="#七相关文档链接">#</a></h2>
+<ul>
+<li>
+<p><strong><a href="https://github.com/medcl/elasticsearch-analysis-ik">elasticsearch-analysis-ik</a></strong> ：IK分词器，安装了这个才支持对中文进行分词，下载与 ES 对应版本的 <a href="https://github.com/medcl/elasticsearch-analysis-ik/releases">Releases</a> 包，解压后放置在 ES 的 plugins 目录下重启 ES 即可。</p>
+</li>
+<li>
+<p><strong><a href="https://github.com/mobz/elasticsearch-head">elasticsearch-head</a></strong> ：Elasticsearch 集群的可视化 Web 前端，相当于 Navicat 操作 MySQL。</p>
+</li>
+<li>
+<p><a href="https://www.elastic.co/guide/index.html">ES 官方文档</a> ：英文好的同学可以直接翻阅官方文档学习 ES。</p>
+</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://jiangjun8888.github.io/posts/tech/%E8%BF%81%E7%A7%BB%E5%A4%87%E4%BB%BDdocker%E4%B8%ADjenkins%E9%95%9C%E5%83%8F%E6%96%B9%E6%A1%88/">
+    <span class="title">« 上一页</span>
+    <br>
+    <span>迁移备份Docker中Jenkins镜像方案</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://jiangjun8888.github.io/">陆家嘴巨饿</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '📄复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '👌🏻已复制!';
+            setTimeout(() => {
+                copybutton.innerHTML = '📄复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

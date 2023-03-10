@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>陆家嘴巨饿</title>
-    <link>https://jiangjun8888.github.io/</link>
-    <description>Recent content on 陆家嘴巨饿</description>
+    <title>👨🏻‍💻 技术 on 陆家嘴巨饿</title>
+    <link>https://jiangjun8888.github.io/posts/tech/</link>
+    <description>Recent content in 👨🏻‍💻 技术 on 陆家嘴巨饿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 11 Mar 2023 21:05:41 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Mar 2023 21:05:41 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Java进程导致CPU负载过高排查步骤</title>
       <link>https://jiangjun8888.github.io/posts/tech/java%E8%BF%9B%E7%A8%8B%E5%AF%BC%E8%87%B4cpu%E8%B4%9F%E8%BD%BD%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5%E6%AD%A5%E9%AA%A4/</link>
@@ -51,7 +51,6 @@
       <guid>https://jiangjun8888.github.io/posts/tech/elasticsearch%E5%9F%BA%E7%A1%80%E5%85%A5%E9%97%A8%E6%95%99%E7%A8%8B/</guid>
       <description>一、ES 是什么？ Elasticsearch 是一个分布式、RESTful 风格的搜索和数据分析引擎，能够解决不断涌现出的各种用例。作为 Elastic Stack 的核心，Elasticsear</description>
     </item>
-    
     
   </channel>
 </rss>
