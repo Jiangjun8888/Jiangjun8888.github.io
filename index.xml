@@ -6,7 +6,16 @@
     <description>Recent content on 陆家嘴巨饿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 11 Mar 2023 21:05:41 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 13 Mar 2023 11:27:27 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>接口幂等性校验注解实现</title>
+      <link>https://jiangjun8888.github.io/posts/tech/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7%E6%A0%A1%E9%AA%8C%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Mon, 13 Mar 2023 11:27:27 +0800</pubDate>
+      
+      <guid>https://jiangjun8888.github.io/posts/tech/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7%E6%A0%A1%E9%AA%8C%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0/</guid>
+      <description>什么是幂等？ 用户对于同一操作发起的一次请求或者多次请求的结果是一致的。 数据库操作中：SELECT UPDATE DELETE 操作天然就是幂等的，同样的语句执行多次结</description>
+    </item>
+    
     <item>
       <title>Java进程导致CPU负载过高排查步骤</title>
       <link>https://jiangjun8888.github.io/posts/tech/java%E8%BF%9B%E7%A8%8B%E5%AF%BC%E8%87%B4cpu%E8%B4%9F%E8%BD%BD%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5%E6%AD%A5%E9%AA%A4/</link>
