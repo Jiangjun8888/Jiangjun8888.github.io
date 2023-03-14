@@ -6,7 +6,16 @@
     <description>Recent content in 👨🏻‍💻 技术 on 陆家嘴巨饿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 13 Mar 2023 11:27:27 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 14 Mar 2023 15:18:11 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/posts/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>解决Nacos日志占用磁盘空间过大问题</title>
+      <link>https://jiangjun8888.github.io/posts/tech/%E8%A7%A3%E5%86%B3nacos%E6%97%A5%E5%BF%97%E5%8D%A0%E7%94%A8%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E8%BF%87%E5%A4%A7%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Tue, 14 Mar 2023 15:18:11 +0800</pubDate>
+      
+      <guid>https://jiangjun8888.github.io/posts/tech/%E8%A7%A3%E5%86%B3nacos%E6%97%A5%E5%BF%97%E5%8D%A0%E7%94%A8%E7%A3%81%E7%9B%98%E7%A9%BA%E9%97%B4%E8%BF%87%E5%A4%A7%E9%97%AE%E9%A2%98/</guid>
+      <description>问题背景： 我们现在项目的 Nacos 由于需要适配 Oracle 数据库所以在 Github 仓库中拉取的 Nacos 多数据源分支的源码，此分支的 Nacos 版本为 1.4.1，部署方式是通过 Dockerfile 打包为镜</description>
+    </item>
+    
     <item>
       <title>接口幂等性校验注解实现</title>
       <link>https://jiangjun8888.github.io/posts/tech/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7%E6%A0%A1%E9%AA%8C%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0/</link>
