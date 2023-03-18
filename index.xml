@@ -6,7 +6,16 @@
     <description>Recent content on 陆家嘴巨饿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 16 Mar 2023 20:29:01 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Mar 2023 10:20:52 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Jmeter压测HTTP、TCP请求</title>
+      <link>https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/</link>
+      <pubDate>Sat, 18 Mar 2023 10:20:52 +0800</pubDate>
+      
+      <guid>https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/</guid>
+      <description>1、Jmeter 是什么？ Jmeter 是一个开源的测试工具，由 Apache 软件基金会开发，它是一个纯 Java 应用程序，用于负载测试、功能测试和性能测试，它是由 Apache 软件基金</description>
+    </item>
+    
     <item>
       <title>《刻意练习》阅读笔记</title>
       <link>https://jiangjun8888.github.io/posts/read/%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/</link>

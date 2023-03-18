@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>使用Jmeter压测HTTP、TCP请求 | 陆家嘴巨饿</title>
+<meta name="keywords" content="">
+<meta name="description" content="1、Jmeter 是什么？ Jmeter 是一个开源的测试工具，由 Apache 软件基金会开发，它是一个纯 Java 应用程序，用于负载测试、功能测试和性能测试，它是由 Apache 软件基金">
+<meta name="author" content="Jiang Jun">
+<link rel="canonical" href="https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://jiangjun8888.github.io/img/logo.jpeg">
+<link rel="apple-touch-icon" href="https://jiangjun8888.github.io/logo.jpeg">
+<link rel="mask-icon" href="https://jiangjun8888.github.io/logo.jpeg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+
+
+
+<script>
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = ""; 
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<meta property="og:title" content="使用Jmeter压测HTTP、TCP请求" />
+<meta property="og:description" content="1、Jmeter 是什么？ Jmeter 是一个开源的测试工具，由 Apache 软件基金会开发，它是一个纯 Java 应用程序，用于负载测试、功能测试和性能测试，它是由 Apache 软件基金" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-18T10:20:52+08:00" />
+<meta property="article:modified_time" content="2023-03-18T10:20:52+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用Jmeter压测HTTP、TCP请求"/>
+<meta name="twitter:description" content="1、Jmeter 是什么？ Jmeter 是一个开源的测试工具，由 Apache 软件基金会开发，它是一个纯 Java 应用程序，用于负载测试、功能测试和性能测试，它是由 Apache 软件基金"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://jiangjun8888.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "👨🏻‍💻 技术",
+      "item": "https://jiangjun8888.github.io/posts/tech/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "使用Jmeter压测HTTP、TCP请求",
+      "item": "https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "使用Jmeter压测HTTP、TCP请求",
+  "name": "使用Jmeter压测HTTP、TCP请求",
+  "description": "1、Jmeter 是什么？ Jmeter 是一个开源的测试工具，由 Apache 软件基金会开发，它是一个纯 Java 应用程序，用于负载测试、功能测试和性能测试，它是由 Apache 软件基金",
+  "keywords": [
+    
+  ],
+  "articleBody": "1、Jmeter 是什么？ Jmeter 是一个开源的测试工具，由 Apache 软件基金会开发，它是一个纯 Java 应用程序，用于负载测试、功能测试和性能测试，它是由 Apache 软件基金会开发的一个开源软件。它可以模拟许多不同类型的负载，并且可以用于测试不同类型的应用程序，包括 Web 应用程序、数据库服务器、FTP 服务器、邮件服务器等。JMeter 可以帮助测试人员和开发人员在测试过程中识别应用程序的瓶颈和性能问题，以及分析应用程序的性能。\n2、如何下载？ 点击下载 Jmeter 5.5 版本，也可以自行访问官网下载页选择合适的 Jmeter 版本：https://jmeter.apache.org/download_jmeter.cgi\n3、Jmeter 语言切换为中文简体 3.1、下载完成后解压压缩包 在 bin 目录下双击 jmeter.sh 可执行文件，Windows 系统的同学双击 jmeter.bat 文件启动。\n3.2、切换语言 在菜单栏 Options 中选择 Choose Language 然后选中 Chinese (Simplified) 即可完成切换。\n4、测试 HTTP 请求 4.1、添加线程组 线程组相当于一组测试请求的集合，当启动时，可以将组下面定义的所有请求并行进行测试。\n4.2、配置线程组 实际上就是配置测试的请求次数，像如下的设置代表 10 秒内将会准备 100 个线程发起请求，只循环 1 次，如果循环次数勾选了永远，将会已 100 个请求 /10 秒一直循环下去。\n4.3、添加 HTTP 请求取样器 4.4、GET 请求配置 4.5、POST 请求配置 同样也是先添加 HTTP 请求取样器再设置请求接口和请求参数。\n4.6、添加监听器 监听器的作用就是获取测试结果，可以添加不同类型的监听器从多个维度分析请求结果。\n4.6.1 添加查看结果树监听器 作用是可以单独查看每次请求的测试结果\n4.6.2 添加聚合报告监听器 4.7、开始测试 点击启动后会弹出一个是否需要保存这个测试计划，点击 Yes 的话需要指定保存的磁盘位置，下次测试可以直接读取保存的文件家在测试计划，如果不需要保存点击 No 即可。\n4.8、查看测试结果 可以看到我启动时线程组定义的是 10 个线程数，执行 1 秒。所以两个请求取样器每个发起 10 个请求，一共是 20 个请求结果。\n查看结果树的报告中可以单独点击某一个请求查看请求结果，是根据发起请求的时间来升序排列的，点击单个请求后在右侧可以查看取样器结果、请求内容、响应内容。\n为什么 Post 请求全部失败了呢？因为只要响应状态码不是 2xx 代表操作被成功接收，Jmeter 则认为此次请求是失败的。我们可以看一下响应内容报的是什么原因。\n可以看到响应体提示不支持的 Media Type (媒体类型 用于声明随之而来的数据的格式。又称：MIME 类型、MIME Type、Content Type。 是一种用于在异构系统、网络之间传递信息时时声明其格式的方法。)，所以有开发经验的同学会注意到，我们的请求体内容没有设置 content-type，默认是 application/x-www-form-urlencoded ，这是浏览器原生的 form 表单类型，或者说是表单默认的类型。我们的请求体是 JSON 字符串格式，需要设置一下 content-type 为 application/json。而设置 content-type 是一个属性，而且我们要指定的请求内容的类型，所以需要添加一个 HTTP 信息头管理器。\n添加后就可以将 content-type 设置好，顺便说一句，如果接口设置了身份校验，需要请求头中携带 token 信息，也可以在这一并设置。\n添加后，启动测试，发现接口响应成功。\n查看聚合报告，聚合报告中对测试的请求进行了区分统计，可以查看到平均的响应时间 (单位均为毫秒)、TP99 的时间，请求异常比例，吞吐量等。\nLabel：请求的名称，就是我们在进行测试的 TCP sampler 的名称 Samples：总共发给服务器的请求数量 Average：单个请求的平均响应时间，单位是毫秒 Median：50% 的请求的响应时间 90%Line：90% 的请求的响应时间 95%Line：95% 的请求的响应时间 99%Line：99% 的请求的响应时间 Min：最小的响应时间 Max：最大的响应时间 Error%：错误率 = 错误的请求的数量 / 请求的总数 Throughput：吞吐量即表示每秒完成的请求数 Received KB/sec：每秒从服务器端接收到的数据量 Sent KB/Sec：每秒从发送到服务器端的数据量 5、测试 TCP 请求 5.1、添加 TCP 请求取样器 5.2、TCP 取样器配置说明 TCPClient classname：\nTCPClientImpl：以文本编辑器中所编辑的纯文本为内容进行发送，默认为这种 BinaryTCPClientImpl：以文本编辑器中所编辑的 16 进制字符（hex）内容为基础转换为二进制的 字节内容进行发送。 LengthPrefixedBinaryTCPClientImpl：在 BinaryTCPClientImpl 基础上默认以发送内容的长度为字节前缀进行填充, 数据包中前 2 个字节为数据长度。可在 bin/jmeter.properties 配置文件中 tcp.binarylength.prefix.length 设置。 Target Server：TCP 采样器中填写服务器地址、端口。\nConnect：设置连接超时时间。\nResponse： 设置响应超时时间。\nRe-use connection： 表示重复使用该连接发送请求。\nClose connection： 表示每次发送完该条数据后，关闭连接。\nEnd of line(EOL) byte value： 终止符。\n比如项目中返回值转为 16 进制的时候如下： 7e800100050100019040011000000003010201447e 那么最后一个字节（8 位）应该是 7e 换算为 10 进制后为 126，那么在 eol 处设置为 126。\n注意：终止符为一个字节，16 进制数大于 7F(127) 后，该 EOL 值为负数。\n比如：如果服务器返回最后一个字节为 80，按单字节换成十进制为 -128，EOL 处的值要填写 -128。\n如果响应内容不是 16 进制内容，是普通文本的话，就是最后一个字节对应的 ASCII 码。\n5.3、开始测试并查看结果 可以看到响应状态码都是 500，代表响应发生错误，并且异常消息为：Response message:org.apache.jmeter.protocol.tcp.sampler.ReadException: Error reading from server, bytes read: 32，\n但是查看响应数据发现实际上是响应成功了的，返回了正确的响应数据结果，其实原因是这个异常是 jmeter 自身抛出来的，我们都知道 TCP 请求不像 HTTP 定义了 1xx、2xx 这类的响应状态码，那是什么原因导致出现了异常呢？\n答案是我们没有配置 End of line(EOL) byte value： 终止符，导致 jmeter 认为响应内容不完整从而抛出 ReadException。 我们的响应数据最后一位字节是 1 ，对应的 ASCII 码 是 49。所以我们去设置一下再启动测试。\n最终测试结果：\n",
+  "wordCount" : "2401",
+  "inLanguage": "en",
+  "datePublished": "2023-03-18T10:20:52+08:00",
+  "dateModified": "2023-03-18T10:20:52+08:00",
+  "author":[{
+    "@type": "Person",
+    "name": "Jiang Jun"
+  }],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "陆家嘴巨饿",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://jiangjun8888.github.io/img/logo.jpeg"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://jiangjun8888.github.io/" accesskey="h" title="陆家嘴巨饿 (Alt + H)">
+                <img src="https://jiangjun8888.github.io/img/logo.jpeg" alt="" aria-label="logo"
+                    height="35">陆家嘴巨饿</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://jiangjun8888.github.io/search" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jiangjun8888.github.io/" title="🏠主页">
+                    <span>🏠主页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jiangjun8888.github.io/posts" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://jiangjun8888.github.io/">🏠 主页</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+    <h1 class="post-title">
+      使用Jmeter压测HTTP、TCP请求
+    </h1>
+    <div class="post-meta"><style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2023-03-18
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>2401字
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>5分钟阅读
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>Jiang Jun
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+        </span>
+    </span>
+</span>
+
+
+</div>
+  </header> <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">文章目录</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#1jmeter-%e6%98%af%e4%bb%80%e4%b9%88" aria-label="1、Jmeter 是什么？">1、Jmeter 是什么？</a></li>
+                <li>
+                    <a href="#2%e5%a6%82%e4%bd%95%e4%b8%8b%e8%bd%bd" aria-label="2、如何下载？">2、如何下载？</a></li>
+                <li>
+                    <a href="#3jmeter-%e8%af%ad%e8%a8%80%e5%88%87%e6%8d%a2%e4%b8%ba%e4%b8%ad%e6%96%87%e7%ae%80%e4%bd%93" aria-label="3、Jmeter 语言切换为中文简体">3、Jmeter 语言切换为中文简体</a><ul>
+                        
+                <li>
+                    <a href="#31%e4%b8%8b%e8%bd%bd%e5%ae%8c%e6%88%90%e5%90%8e%e8%a7%a3%e5%8e%8b%e5%8e%8b%e7%bc%a9%e5%8c%85" aria-label="3.1、下载完成后解压压缩包">3.1、下载完成后解压压缩包</a></li>
+                <li>
+                    <a href="#32%e5%88%87%e6%8d%a2%e8%af%ad%e8%a8%80" aria-label="3.2、切换语言">3.2、切换语言</a></li></ul>
+                </li>
+                <li>
+                    <a href="#4%e6%b5%8b%e8%af%95-http-%e8%af%b7%e6%b1%82" aria-label="4、测试 HTTP 请求">4、测试 HTTP 请求</a><ul>
+                        
+                <li>
+                    <a href="#41%e6%b7%bb%e5%8a%a0%e7%ba%bf%e7%a8%8b%e7%bb%84" aria-label="4.1、添加线程组">4.1、添加线程组</a></li>
+                <li>
+                    <a href="#42%e9%85%8d%e7%bd%ae%e7%ba%bf%e7%a8%8b%e7%bb%84" aria-label="4.2、配置线程组">4.2、配置线程组</a></li>
+                <li>
+                    <a href="#43%e6%b7%bb%e5%8a%a0-http-%e8%af%b7%e6%b1%82%e5%8f%96%e6%a0%b7%e5%99%a8" aria-label="4.3、添加 HTTP 请求取样器">4.3、添加 HTTP 请求取样器</a></li>
+                <li>
+                    <a href="#44get-%e8%af%b7%e6%b1%82%e9%85%8d%e7%bd%ae" aria-label="4.4、GET 请求配置">4.4、GET 请求配置</a></li>
+                <li>
+                    <a href="#45post-%e8%af%b7%e6%b1%82%e9%85%8d%e7%bd%ae" aria-label="4.5、POST 请求配置">4.5、POST 请求配置</a></li>
+                <li>
+                    <a href="#46%e6%b7%bb%e5%8a%a0%e7%9b%91%e5%90%ac%e5%99%a8" aria-label="4.6、添加监听器">4.6、添加监听器</a><ul>
+                        
+                <li>
+                    <a href="#461-%e6%b7%bb%e5%8a%a0%e6%9f%a5%e7%9c%8b%e7%bb%93%e6%9e%9c%e6%a0%91%e7%9b%91%e5%90%ac%e5%99%a8" aria-label="4.6.1 添加查看结果树监听器">4.6.1 添加查看结果树监听器</a></li>
+                <li>
+                    <a href="#462-%e6%b7%bb%e5%8a%a0%e8%81%9a%e5%90%88%e6%8a%a5%e5%91%8a%e7%9b%91%e5%90%ac%e5%99%a8" aria-label="4.6.2 添加聚合报告监听器">4.6.2 添加聚合报告监听器</a></li></ul>
+                </li>
+                <li>
+                    <a href="#47%e5%bc%80%e5%a7%8b%e6%b5%8b%e8%af%95" aria-label="4.7、开始测试">4.7、开始测试</a></li>
+                <li>
+                    <a href="#48%e6%9f%a5%e7%9c%8b%e6%b5%8b%e8%af%95%e7%bb%93%e6%9e%9c" aria-label="4.8、查看测试结果">4.8、查看测试结果</a></li></ul>
+                </li>
+                <li>
+                    <a href="#5%e6%b5%8b%e8%af%95-tcp-%e8%af%b7%e6%b1%82" aria-label="5、测试 TCP 请求">5、测试 TCP 请求</a><ul>
+                        
+                <li>
+                    <a href="#51%e6%b7%bb%e5%8a%a0-tcp-%e8%af%b7%e6%b1%82%e5%8f%96%e6%a0%b7%e5%99%a8" aria-label="5.1、添加 TCP 请求取样器">5.1、添加 TCP 请求取样器</a></li>
+                <li>
+                    <a href="#52tcp-%e5%8f%96%e6%a0%b7%e5%99%a8%e9%85%8d%e7%bd%ae%e8%af%b4%e6%98%8e" aria-label="5.2、TCP 取样器配置说明">5.2、TCP 取样器配置说明</a></li>
+                <li>
+                    <a href="#53%e5%bc%80%e5%a7%8b%e6%b5%8b%e8%af%95%e5%b9%b6%e6%9f%a5%e7%9c%8b%e7%bb%93%e6%9e%9c" aria-label="5.3、开始测试并查看结果">5.3、开始测试并查看结果</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+        
+        activeElement = elements[0];
+        const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+        document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+    }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 &&
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+            const id = encodeURI(element.getAttribute('id')).toLowerCase();
+            if (element === activeElement){
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+            } else {
+                document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+            }
+        })
+    }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;
+    }
+</script>
+
+  <div class="post-content"><h2 id="1jmeter-是什么">1、Jmeter 是什么？<a hidden class="anchor" aria-hidden="true" href="#1jmeter-是什么">#</a></h2>
+<blockquote>
+<p>Jmeter 是一个开源的测试工具，由 Apache 软件基金会开发，它是一个纯 Java 应用程序，用于负载测试、功能测试和性能测试，它是由 Apache 软件基金会开发的一个开源软件。它可以模拟许多不同类型的负载，并且可以用于测试不同类型的应用程序，包括 Web 应用程序、数据库服务器、FTP 服务器、邮件服务器等。JMeter 可以帮助测试人员和开发人员在测试过程中识别应用程序的瓶颈和性能问题，以及分析应用程序的性能。</p>
+</blockquote>
+<h2 id="2如何下载">2、如何下载？<a hidden class="anchor" aria-hidden="true" href="#2如何下载">#</a></h2>
+<p><a href="https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.5.zip">点击下载 Jmeter 5.5 版本</a>，也可以自行访问官网下载页选择合适的 Jmeter 版本：https://jmeter.apache.org/download_jmeter.cgi</p>
+<h2 id="3jmeter-语言切换为中文简体">3、Jmeter 语言切换为中文简体<a hidden class="anchor" aria-hidden="true" href="#3jmeter-语言切换为中文简体">#</a></h2>
+<h3 id="31下载完成后解压压缩包">3.1、下载完成后解压压缩包<a hidden class="anchor" aria-hidden="true" href="#31下载完成后解压压缩包">#</a></h3>
+<p>在 bin 目录下双击 jmeter.sh 可执行文件，Windows 系统的同学双击 jmeter.bat 文件启动。</p>
+<h3 id="32切换语言">3.2、切换语言<a hidden class="anchor" aria-hidden="true" href="#32切换语言">#</a></h3>
+<p>在菜单栏 Options 中选择 Choose Language 然后选中 Chinese (Simplified) 即可完成切换。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/202303180849848.png" alt=""  />
+</p>
+<h2 id="4测试-http-请求">4、测试 HTTP 请求<a hidden class="anchor" aria-hidden="true" href="#4测试-http-请求">#</a></h2>
+<h3 id="41添加线程组">4.1、添加线程组<a hidden class="anchor" aria-hidden="true" href="#41添加线程组">#</a></h3>
+<p>线程组相当于一组测试请求的集合，当启动时，可以将组下面定义的所有请求并行进行测试。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/202303180853236.png" alt=""  />
+</p>
+<h3 id="42配置线程组">4.2、配置线程组<a hidden class="anchor" aria-hidden="true" href="#42配置线程组">#</a></h3>
+<p>实际上就是配置测试的请求次数，像如下的设置代表 10 秒内将会准备 100 个线程发起请求，只循环 1 次，如果循环次数勾选了永远，将会已 100 个请求 /10 秒一直循环下去。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318085702229.png" alt=""  />
+</p>
+<h3 id="43添加-http-请求取样器">4.3、添加 HTTP 请求取样器<a hidden class="anchor" aria-hidden="true" href="#43添加-http-请求取样器">#</a></h3>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318090028009.png" alt=""  />
+</p>
+<h3 id="44get-请求配置">4.4、GET 请求配置<a hidden class="anchor" aria-hidden="true" href="#44get-请求配置">#</a></h3>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318091156151.png" alt=""  />
+</p>
+<h3 id="45post-请求配置">4.5、POST 请求配置<a hidden class="anchor" aria-hidden="true" href="#45post-请求配置">#</a></h3>
+<p>同样也是先添加 HTTP 请求取样器再设置请求接口和请求参数。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318091729380.png" alt=""  />
+</p>
+<h3 id="46添加监听器">4.6、添加监听器<a hidden class="anchor" aria-hidden="true" href="#46添加监听器">#</a></h3>
+<p>监听器的作用就是获取测试结果，可以添加不同类型的监听器从多个维度分析请求结果。</p>
+<h4 id="461-添加查看结果树监听器">4.6.1 添加查看结果树监听器<a hidden class="anchor" aria-hidden="true" href="#461-添加查看结果树监听器">#</a></h4>
+<p>作用是可以单独查看每次请求的测试结果</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318091948254.png" alt=""  />
+</p>
+<h4 id="462-添加聚合报告监听器">4.6.2 添加聚合报告监听器<a hidden class="anchor" aria-hidden="true" href="#462-添加聚合报告监听器">#</a></h4>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318092439332.png" alt=""  />
+</p>
+<h3 id="47开始测试">4.7、开始测试<a hidden class="anchor" aria-hidden="true" href="#47开始测试">#</a></h3>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318093352891.png" alt=""  />
+</p>
+<p>点击启动后会弹出一个是否需要保存这个测试计划，点击 Yes 的话需要指定保存的磁盘位置，下次测试可以直接读取保存的文件家在测试计划，如果不需要保存点击 No 即可。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318093021041.png" alt=""  />
+</p>
+<h3 id="48查看测试结果">4.8、查看测试结果<a hidden class="anchor" aria-hidden="true" href="#48查看测试结果">#</a></h3>
+<p>可以看到我启动时线程组定义的是 10 个线程数，执行 1 秒。所以两个请求取样器每个发起 10 个请求，一共是 20 个请求结果。</p>
+<p>查看结果树的报告中可以单独点击某一个请求查看请求结果，是根据发起请求的时间来升序排列的，点击单个请求后在右侧可以查看取样器结果、请求内容、响应内容。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318093436527.png" alt=""  />
+</p>
+<p>为什么 Post 请求全部失败了呢？因为只要响应状态码不是 2xx 代表操作被成功接收，Jmeter 则认为此次请求是失败的。我们可以看一下响应内容报的是什么原因。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318093813482.png" alt=""  />
+</p>
+<p>可以看到响应体提示不支持的 Media Type (<strong>媒体类型</strong> 用于声明随之而来的数据的格式。又称：MIME 类型、MIME Type、Content Type。 是一种用于在异构系统、网络之间传递信息时时声明其格式的方法。)，所以有开发经验的同学会注意到，我们的请求体内容没有设置 content-type，默认是 application/x-www-form-urlencoded ，这是浏览器原生的 form 表单类型，或者说是表单默认的类型。我们的请求体是 JSON 字符串格式，需要设置一下 content-type 为 application/json。而设置 content-type 是一个属性，而且我们要指定的请求内容的类型，所以需要添加一个 HTTP 信息头管理器。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318094502555.png" alt=""  />
+</p>
+<p>添加后就可以将 content-type 设置好，顺便说一句，如果接口设置了身份校验，需要请求头中携带 token 信息，也可以在这一并设置。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318094651719.png" alt=""  />
+</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318094847090.png" alt=""  />
+</p>
+<p>添加后，启动测试，发现接口响应成功。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318095019156.png" alt=""  />
+</p>
+<p>查看聚合报告，聚合报告中对测试的请求进行了区分统计，可以查看到平均的响应时间 (单位均为毫秒)、TP99 的时间，请求异常比例，吞吐量等。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318095126322.png" alt=""  />
+</p>
+<ul>
+<li>Label：请求的名称，就是我们在进行测试的 TCP sampler 的名称</li>
+<li>Samples：总共发给服务器的请求数量</li>
+<li>Average：单个请求的平均响应时间，单位是毫秒</li>
+<li>Median：50% 的请求的响应时间</li>
+<li>90%Line：90% 的请求的响应时间</li>
+<li>95%Line：95% 的请求的响应时间</li>
+<li>99%Line：99% 的请求的响应时间</li>
+<li>Min：最小的响应时间</li>
+<li>Max：最大的响应时间</li>
+<li>Error%：错误率 = 错误的请求的数量 / 请求的总数</li>
+<li>Throughput：吞吐量即表示每秒完成的请求数</li>
+<li>Received KB/sec：每秒从服务器端接收到的数据量</li>
+<li>Sent KB/Sec：每秒从发送到服务器端的数据量</li>
+</ul>
+<h2 id="5测试-tcp-请求">5、测试 TCP 请求<a hidden class="anchor" aria-hidden="true" href="#5测试-tcp-请求">#</a></h2>
+<h3 id="51添加-tcp-请求取样器">5.1、添加 TCP 请求取样器<a hidden class="anchor" aria-hidden="true" href="#51添加-tcp-请求取样器">#</a></h3>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318095623956.png" alt=""  />
+</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318100454577.png" alt=""  />
+</p>
+<h3 id="52tcp-取样器配置说明">5.2、TCP 取样器配置说明<a hidden class="anchor" aria-hidden="true" href="#52tcp-取样器配置说明">#</a></h3>
+<p>TCPClient classname：</p>
+<ul>
+<li><em><strong>TCPClientImpl</strong></em>：以文本编辑器中所编辑的纯文本为内容进行发送，默认为这种</li>
+<li><em><strong>BinaryTCPClientImpl</strong></em>：以文本编辑器中所编辑的 16 进制字符（hex）内容为基础转换为二进制的 字节内容进行发送。</li>
+<li><em><strong>LengthPrefixedBinaryTCPClientImpl</strong></em>：在 BinaryTCPClientImpl 基础上默认以发送内容的长度为字节前缀进行填充, 数据包中前 2 个字节为数据长度。可在 bin/jmeter.properties 配置文件中 tcp.binarylength.prefix.length 设置。</li>
+</ul>
+<p><em><strong>Target Server</strong></em>：TCP 采样器中填写服务器地址、端口。</p>
+<p><em><strong>Connect</strong></em>：设置连接超时时间。</p>
+<p><em><strong>Response：</strong></em> 设置响应超时时间。</p>
+<p><em><strong>Re-use connection：</strong></em> 表示重复使用该连接发送请求。</p>
+<p><em><strong>Close connection：</strong></em> 表示每次发送完该条数据后，关闭连接。</p>
+<p><em><strong>End of line(EOL) byte value：</strong></em> 终止符。</p>
+<blockquote>
+<p>比如项目中返回值转为 16 进制的时候如下： 7e800100050100019040011000000003010201447e 那么最后一个字节（8 位）应该是 7e 换算为 10 进制后为 126，那么在 eol 处设置为 126。</p>
+<p>注意：终止符为一个字节，16 进制数大于 7F(127) 后，该 EOL 值为负数。</p>
+<p>比如：如果服务器返回最后一个字节为 80，按单字节换成十进制为 -128，EOL 处的值要填写 -128。</p>
+<p>如果响应内容不是 16 进制内容，是普通文本的话，就是最后一个字节对应的 ASCII 码。</p>
+</blockquote>
+<h3 id="53开始测试并查看结果">5.3、开始测试并查看结果<a hidden class="anchor" aria-hidden="true" href="#53开始测试并查看结果">#</a></h3>
+<p>可以看到响应状态码都是 500，代表响应发生错误，并且异常消息为：Response message:org.apache.jmeter.protocol.tcp.sampler.ReadException: Error reading from server, bytes read: 32，</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318100553929.png" alt=""  />
+</p>
+<p>但是查看响应数据发现实际上是响应成功了的，返回了正确的响应数据结果，其实原因是这个异常是 jmeter 自身抛出来的，我们都知道 TCP 请求不像 HTTP 定义了 1xx、2xx 这类的响应状态码，那是什么原因导致出现了异常呢？</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318100612091.png" alt=""  />
+</p>
+<p>答案是我们没有配置  <em><strong>End of line(EOL) byte value：</strong></em> 终止符，导致 jmeter 认为响应内容不完整从而抛出 ReadException。 我们的响应数据最后一位字节是 1 ，对应的 ASCII 码 是 49。所以我们去设置一下再启动测试。</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318101044945.png" alt=""  />
+</p>
+<p>最终测试结果：</p>
+<p><img loading="lazy" src="https://raw.githubusercontent.com/Jiangjun8888/picBed/main/images/image-20230318101218673.png" alt=""  />
+</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://jiangjun8888.github.io/posts/read/%E5%88%BB%E6%84%8F%E7%BB%83%E4%B9%A0%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/">
+    <span class="title">下一页 »</span>
+    <br>
+    <span>《刻意练习》阅读笔记</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://jiangjun8888.github.io/">陆家嘴巨饿</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = '📄复制';
+
+        function copyingDone() {
+            copybutton.innerHTML = '👌🏻已复制!';
+            setTimeout(() => {
+                copybutton.innerHTML = '📄复制';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
