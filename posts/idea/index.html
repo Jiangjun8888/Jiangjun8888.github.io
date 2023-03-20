@@ -169,6 +169,63 @@
     💡 想法
   </h1>
 </header>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2>增加输入的摩擦力
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>现在每天巨量的信息冲刷着我们的大脑，抖音，小红书，今日头条这些信息流软件，还有微信公众号，碎片化知识阅读后有很强的头部效应，大脑记住了前几分...</p>
+  </div>
+  <footer class="entry-footer"><style>
+    i[id*="post_meta_style"] {
+        display: flex;
+        align-items: center;
+        margin: 0 0 10px 0;
+    }
+
+    .parent-post-meta {
+        display: flex;
+        flex-wrap: wrap;
+        opacity: 0.8;
+    }
+</style>
+
+<span class="parent-post-meta">
+    <span id="post_meta_style_1">
+        <span class="fa fa-calendar-check-o"></span>
+        <span>2023-03-20
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_3">
+        <span class="fa fa-file-word-o"></span>
+        <span>331字
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_4">
+        <span class="fa fa-clock-o"></span>
+        <span>1分钟阅读
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_5">
+        <span class="fa fa-user-o"></span>
+        <span>Jiang Jun
+            &nbsp;&nbsp;
+        </span>
+    </span>
+    <span id="post_meta_style_6">
+        <span class="fa fa-tags" style="opacity: 0.8"></span>
+        <span>
+        </span>
+    </span>
+</span>
+</footer>
+  <a class="entry-link" aria-label="post link to 增加输入的摩擦力" href="https://jiangjun8888.github.io/posts/idea/%E5%A2%9E%E5%8A%A0%E8%BE%93%E5%85%A5%E7%9A%84%E6%91%A9%E6%93%A6%E5%8A%9B/"></a>
+</article>
     </main>
     
 <footer class="footer">
@@ -238,6 +295,27 @@
         }
     })
 
+</script>
+
+<script>
+    document.body.addEventListener('copy', function (e) {
+        if (window.getSelection().toString() && window.getSelection().toString().length > 50) {
+            let clipboardData = e.clipboardData || window.clipboardData;
+            if (clipboardData) {
+                e.preventDefault();
+                let htmlData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"陆家嘴巨饿"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                let textData = window.getSelection().toString() +
+                    '\r\n\n————————————————\r\n' +
+                    '版权声明：本文为「'+"陆家嘴巨饿"+'」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。' +
+                '\r\n原文链接：' + location.href;
+                clipboardData.setData('text/html', htmlData);
+                clipboardData.setData('text/plain', textData);
+            }
+        }
+    });
 </script>
 </body>
 

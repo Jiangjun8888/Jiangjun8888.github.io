@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Java进程导致CPU负载过高排查步骤 | 陆家嘴巨饿</title>
+<title>增加输入的摩擦力 | 陆家嘴巨饿</title>
 <meta name="keywords" content="">
-<meta name="description" content="CPU 的使用会飙升，一旦飙升，一般怀疑某个业务逻辑的计算量太大，或者是触发了死循环（比如著名的 HashMap 高并发引起的死循环），也有可能是 GC 导致的，如：堆">
+<meta name="description" content="现在每天巨量的信息冲刷着我们的大脑，抖音，小红书，今日头条这些信息流软件，还有微信公众号，碎片化知识阅读后有很强的头部效应，大脑记住了前几分">
 <meta name="author" content="Jiang Jun">
-<link rel="canonical" href="https://jiangjun8888.github.io/posts/tech/java%E8%BF%9B%E7%A8%8B%E5%AF%BC%E8%87%B4cpu%E8%B4%9F%E8%BD%BD%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5%E6%AD%A5%E9%AA%A4/">
+<link rel="canonical" href="https://jiangjun8888.github.io/posts/idea/%E5%A2%9E%E5%8A%A0%E8%BE%93%E5%85%A5%E7%9A%84%E6%91%A9%E6%93%A6%E5%8A%9B/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.css" rel="preload stylesheet" as="style">
 <script defer crossorigin="anonymous" src="/assets/js/highlight.js" onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://jiangjun8888.github.io/img/logo.jpeg">
@@ -71,16 +71,16 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
-<meta property="og:title" content="Java进程导致CPU负载过高排查步骤" />
-<meta property="og:description" content="CPU 的使用会飙升，一旦飙升，一般怀疑某个业务逻辑的计算量太大，或者是触发了死循环（比如著名的 HashMap 高并发引起的死循环），也有可能是 GC 导致的，如：堆" />
+<meta property="og:title" content="增加输入的摩擦力" />
+<meta property="og:description" content="现在每天巨量的信息冲刷着我们的大脑，抖音，小红书，今日头条这些信息流软件，还有微信公众号，碎片化知识阅读后有很强的头部效应，大脑记住了前几分" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jiangjun8888.github.io/posts/tech/java%E8%BF%9B%E7%A8%8B%E5%AF%BC%E8%87%B4cpu%E8%B4%9F%E8%BD%BD%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5%E6%AD%A5%E9%AA%A4/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2023-03-11T21:05:41+08:00" />
-<meta property="article:modified_time" content="2023-03-11T21:05:41+08:00" />
+<meta property="og:url" content="https://jiangjun8888.github.io/posts/idea/%E5%A2%9E%E5%8A%A0%E8%BE%93%E5%85%A5%E7%9A%84%E6%91%A9%E6%93%A6%E5%8A%9B/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-03-20T11:29:37+08:00" />
+<meta property="article:modified_time" content="2023-03-20T11:29:37+08:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Java进程导致CPU负载过高排查步骤"/>
-<meta name="twitter:description" content="CPU 的使用会飙升，一旦飙升，一般怀疑某个业务逻辑的计算量太大，或者是触发了死循环（比如著名的 HashMap 高并发引起的死循环），也有可能是 GC 导致的，如：堆"/>
+<meta name="twitter:title" content="增加输入的摩擦力"/>
+<meta name="twitter:description" content="现在每天巨量的信息冲刷着我们的大脑，抖音，小红书，今日头条这些信息流软件，还有微信公众号，碎片化知识阅读后有很强的头部效应，大脑记住了前几分"/>
 
 
 <script type="application/ld+json">
@@ -97,14 +97,14 @@
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "👨🏻‍💻 技术",
-      "item": "https://jiangjun8888.github.io/posts/tech/"
+      "name": "💡 想法",
+      "item": "https://jiangjun8888.github.io/posts/idea/"
     }, 
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "Java进程导致CPU负载过高排查步骤",
-      "item": "https://jiangjun8888.github.io/posts/tech/java%E8%BF%9B%E7%A8%8B%E5%AF%BC%E8%87%B4cpu%E8%B4%9F%E8%BD%BD%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5%E6%AD%A5%E9%AA%A4/"
+      "name": "增加输入的摩擦力",
+      "item": "https://jiangjun8888.github.io/posts/idea/%E5%A2%9E%E5%8A%A0%E8%BE%93%E5%85%A5%E7%9A%84%E6%91%A9%E6%93%A6%E5%8A%9B/"
     }
   ]
 }
@@ -113,24 +113,24 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Java进程导致CPU负载过高排查步骤",
-  "name": "Java进程导致CPU负载过高排查步骤",
-  "description": "CPU 的使用会飙升，一旦飙升，一般怀疑某个业务逻辑的计算量太大，或者是触发了死循环（比如著名的 HashMap 高并发引起的死循环），也有可能是 GC 导致的，如：堆",
+  "headline": "增加输入的摩擦力",
+  "name": "增加输入的摩擦力",
+  "description": "现在每天巨量的信息冲刷着我们的大脑，抖音，小红书，今日头条这些信息流软件，还有微信公众号，碎片化知识阅读后有很强的头部效应，大脑记住了前几分",
   "keywords": [
     
   ],
-  "articleBody": "CPU 的使用会飙升，一旦飙升，一般怀疑某个业务逻辑的计算量太大，或者是触发了死循环（比如著名的 HashMap 高并发引起的死循环），也有可能是 GC 导致的，如：堆已经满了，但是又没有发生 OOM，于是 GC 进程就一直在那里回收，回收的效果又非常一般，造成 CPU 升高应用假死。\n（1）使用 top 命令，查找到使用 CPU 最多的某个进程，记录它的 pid。使用 Shift + P 快捷键可以按 CPU 的使用率进行排序。\ntop （2）再次使用 top 命令，加 -H 参数，查看某个进程中使用 CPU 最多的某个线程，记录线程的 ID。\ntop -Hp $pid （3）使用 printf 函数，将十进制的 tid 转化成十六进制。\nprintf %x $tid （4）使用 jstack 命令，查看 Java 进程的线程栈。\njstack $pid \u003e$pid.log （5）使用 less 命令查看生成的文件，并查找刚才转化的十六进制 tid，找到发生问题的线程上下文。\nless $pid.log ",
-  "wordCount" : "314",
+  "articleBody": "现在每天巨量的信息冲刷着我们的大脑，抖音，小红书，今日头条这些信息流软件，还有微信公众号，碎片化知识阅读后有很强的头部效应，大脑记住了前几分钟看的内容，又被新的一轮推送给覆盖掉，如果说只是单纯的娱乐性知识不要紧，但有的内容能引发自己的思考，给自己知识体系的查漏补缺，像这类的知识，应该要写下自己的思考和总结，俗话说：学而不思则罔，思而不学则殆。囫囵吞枣的过一遍，大脑没有产生复盘的摩擦力，就会快速遗忘，而思考总结就是给记忆增加摩擦力。以上只是拿信息流软件举例子，实际上看书，学习，或者做事任何你觉得需要记忆的内容都可以采取这方法，虽然说感官上觉得学习效率降低了，因为你要花时间思考，组织语言，文字记录，但学习的内容这一轮复盘中重复了三遍，有效减少了知识的失效率。\n",
+  "wordCount" : "331",
   "inLanguage": "en",
-  "datePublished": "2023-03-11T21:05:41+08:00",
-  "dateModified": "2023-03-11T21:05:41+08:00",
+  "datePublished": "2023-03-20T11:29:37+08:00",
+  "dateModified": "2023-03-20T11:29:37+08:00",
   "author":[{
     "@type": "Person",
     "name": "Jiang Jun"
   }],
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://jiangjun8888.github.io/posts/tech/java%E8%BF%9B%E7%A8%8B%E5%AF%BC%E8%87%B4cpu%E8%B4%9F%E8%BD%BD%E8%BF%87%E9%AB%98%E6%8E%92%E6%9F%A5%E6%AD%A5%E9%AA%A4/"
+    "@id": "https://jiangjun8888.github.io/posts/idea/%E5%A2%9E%E5%8A%A0%E8%BE%93%E5%85%A5%E7%9A%84%E6%91%A9%E6%93%A6%E5%8A%9B/"
   },
   "publisher": {
     "@type": "Organization",
@@ -208,9 +208,9 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="https://jiangjun8888.github.io/">🏠 主页</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/tech/">👨🏻‍💻 技术</a></div>
+    <div class="breadcrumbs"><a href="https://jiangjun8888.github.io/">🏠 主页</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/">📚文章</a>&nbsp;»&nbsp;<a href="https://jiangjun8888.github.io/posts/idea/">💡 想法</a></div>
     <h1 class="post-title">
-      Java进程导致CPU负载过高排查步骤
+      增加输入的摩擦力
     </h1>
     <div class="post-meta"><style>
     i[id*="post_meta_style"] {
@@ -229,13 +229,13 @@
 <span class="parent-post-meta">
     <span id="post_meta_style_1">
         <span class="fa fa-calendar-check-o"></span>
-        <span>2023-03-11
+        <span>2023-03-20
             &nbsp;&nbsp;
         </span>
     </span>
     <span id="post_meta_style_3">
         <span class="fa fa-file-word-o"></span>
-        <span>314字
+        <span>331字
             &nbsp;&nbsp;
         </span>
     </span>
@@ -262,18 +262,8 @@
 </div>
   </header> 
 
-  <div class="post-content"><p>CPU 的使用会飙升，一旦飙升，一般怀疑某个业务逻辑的计算量太大，或者是触发了死循环（比如著名的 HashMap 高并发引起的死循环），也有可能是 GC 导致的，如：堆已经满了，但是又没有发生 OOM，于是 GC 进程就一直在那里回收，回收的效果又非常一般，造成 CPU 升高应用假死。</p>
-<p>（1）使用 top 命令，查找到使用 CPU 最多的某个进程，记录它的 pid。使用 Shift + P 快捷键可以按 CPU 的使用率进行排序。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>top
-</span></span></code></pre></div><p>（2）再次使用 top 命令，加 -H 参数，查看某个进程中使用 CPU 最多的某个线程，记录线程的 ID。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>top -Hp $pid
-</span></span></code></pre></div><p>（3）使用 printf 函数，将十进制的 tid 转化成十六进制。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>printf %x $tid
-</span></span></code></pre></div><p>（4）使用 jstack 命令，查看 Java 进程的线程栈。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>jstack $pid &gt;$pid.<span style="color:#007f7f">log</span>
-</span></span></code></pre></div><p>（5）使用 less 命令查看生成的文件，并查找刚才转化的十六进制 tid，找到发生问题的线程上下文。</p>
-<div class="highlight"><pre tabindex="0" style="color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>less $pid.<span style="color:#007f7f">log</span>
-</span></span></code></pre></div>
+  <div class="post-content"><p>现在每天巨量的信息冲刷着我们的大脑，抖音，小红书，今日头条这些信息流软件，还有微信公众号，碎片化知识阅读后有很强的头部效应，大脑记住了前几分钟看的内容，又被新的一轮推送给覆盖掉，如果说只是单纯的娱乐性知识不要紧，但有的内容能引发自己的思考，给自己知识体系的查漏补缺，像这类的知识，应该要写下自己的思考和总结，俗话说：学而不思则罔，思而不学则殆。囫囵吞枣的过一遍，大脑没有产生复盘的摩擦力，就会快速遗忘，而思考总结就是给记忆增加摩擦力。以上只是拿信息流软件举例子，实际上看书，学习，或者做事任何你觉得需要记忆的内容都可以采取这方法，虽然说感官上觉得学习效率降低了，因为你要花时间思考，组织语言，文字记录，但学习的内容这一轮复盘中重复了三遍，有效减少了知识的失效率。</p>
+
 
   </div>
 
@@ -281,15 +271,10 @@
     <ul class="post-tags">
     </ul>
 <nav class="paginav">
-  <a class="prev" href="https://jiangjun8888.github.io/posts/tech/%E6%8E%A5%E5%8F%A3%E5%B9%82%E7%AD%89%E6%80%A7%E6%A0%A1%E9%AA%8C%E6%B3%A8%E8%A7%A3%E5%AE%9E%E7%8E%B0/">
-    <span class="title">« 上一页</span>
-    <br>
-    <span>接口幂等性校验注解实现</span>
-  </a>
-  <a class="next" href="https://jiangjun8888.github.io/posts/tech/nacos%E8%BF%9E%E6%8E%A5oracle%E6%95%85%E9%9A%9C%E8%A7%A3%E5%86%B3/">
+  <a class="next" href="https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/">
     <span class="title">下一页 »</span>
     <br>
-    <span>Nacos连接Oracle故障解决</span>
+    <span>使用Jmeter压测HTTP、TCP请求</span>
   </a>
 </nav>
 

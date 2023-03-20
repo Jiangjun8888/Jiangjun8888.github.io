@@ -6,7 +6,16 @@
     <description>Recent content on 陆家嘴巨饿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sat, 18 Mar 2023 10:20:52 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 Mar 2023 11:29:37 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>增加输入的摩擦力</title>
+      <link>https://jiangjun8888.github.io/posts/idea/%E5%A2%9E%E5%8A%A0%E8%BE%93%E5%85%A5%E7%9A%84%E6%91%A9%E6%93%A6%E5%8A%9B/</link>
+      <pubDate>Mon, 20 Mar 2023 11:29:37 +0800</pubDate>
+      
+      <guid>https://jiangjun8888.github.io/posts/idea/%E5%A2%9E%E5%8A%A0%E8%BE%93%E5%85%A5%E7%9A%84%E6%91%A9%E6%93%A6%E5%8A%9B/</guid>
+      <description>现在每天巨量的信息冲刷着我们的大脑，抖音，小红书，今日头条这些信息流软件，还有微信公众号，碎片化知识阅读后有很强的头部效应，大脑记住了前几分</description>
+    </item>
+    
     <item>
       <title>使用Jmeter压测HTTP、TCP请求</title>
       <link>https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/</link>
