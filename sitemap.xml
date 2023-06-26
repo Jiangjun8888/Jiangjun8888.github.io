@@ -2,23 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://jiangjun8888.github.io/posts/idea/</loc>
-    <lastmod>2023-04-10T13:34:10+08:00</lastmod>
+    <loc>https://jiangjun8888.github.io/posts/tech/</loc>
+    <lastmod>2023-06-26T10:30:02+08:00</lastmod>
   </url><url>
     <loc>https://jiangjun8888.github.io/posts/</loc>
+    <lastmod>2023-06-26T10:30:02+08:00</lastmod>
+  </url><url>
+    <loc>https://jiangjun8888.github.io/posts/tech/%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B8%A6%E6%9C%89jdk&#43;python%E7%8E%AF%E5%A2%83%E7%9A%84%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8F/</loc>
+    <lastmod>2023-06-26T10:30:02+08:00</lastmod>
+  </url><url>
+    <loc>https://jiangjun8888.github.io/</loc>
+    <lastmod>2023-06-26T10:30:02+08:00</lastmod>
+  </url><url>
+    <loc>https://jiangjun8888.github.io/posts/idea/</loc>
     <lastmod>2023-04-10T13:34:10+08:00</lastmod>
   </url><url>
     <loc>https://jiangjun8888.github.io/posts/idea/%E8%87%AA%E5%AA%92%E4%BD%93/</loc>
     <lastmod>2023-04-10T13:34:10+08:00</lastmod>
   </url><url>
-    <loc>https://jiangjun8888.github.io/</loc>
-    <lastmod>2023-04-10T13:34:10+08:00</lastmod>
-  </url><url>
     <loc>https://jiangjun8888.github.io/posts/idea/%E5%A2%9E%E5%8A%A0%E8%BE%93%E5%85%A5%E7%9A%84%E6%91%A9%E6%93%A6%E5%8A%9B/</loc>
     <lastmod>2023-03-20T11:29:37+08:00</lastmod>
-  </url><url>
-    <loc>https://jiangjun8888.github.io/posts/tech/</loc>
-    <lastmod>2023-03-18T10:20:52+08:00</lastmod>
   </url><url>
     <loc>https://jiangjun8888.github.io/posts/tech/%E4%BD%BF%E7%94%A8jmeter%E5%8E%8B%E6%B5%8Bhttptcp%E8%AF%B7%E6%B1%82/</loc>
     <lastmod>2023-03-18T10:20:52+08:00</lastmod>

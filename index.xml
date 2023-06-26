@@ -6,7 +6,16 @@
     <description>Recent content on 陆家嘴巨饿</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 10 Apr 2023 13:34:10 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Jun 2023 10:30:02 +0800</lastBuildDate><atom:link href="https://jiangjun8888.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>构建一个带有Jdk&#43;Python环境的基础镜像</title>
+      <link>https://jiangjun8888.github.io/posts/tech/%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B8%A6%E6%9C%89jdk&#43;python%E7%8E%AF%E5%A2%83%E7%9A%84%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8F/</link>
+      <pubDate>Mon, 26 Jun 2023 10:30:02 +0800</pubDate>
+      
+      <guid>https://jiangjun8888.github.io/posts/tech/%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B8%A6%E6%9C%89jdk&#43;python%E7%8E%AF%E5%A2%83%E7%9A%84%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8F/</guid>
+      <description>我司的 Java 编写的微服务通过 Docker 容器部署，最近有一项功能需要执行 Python 脚本获取返回值，此时就需要容器中带上Python的环境才可以，记录下搭建过程。 1</description>
+    </item>
+    
     <item>
       <title>为什么自媒体上技术up主学历低技术一般的反而流量越大</title>
       <link>https://jiangjun8888.github.io/posts/idea/%E8%87%AA%E5%AA%92%E4%BD%93/</link>
