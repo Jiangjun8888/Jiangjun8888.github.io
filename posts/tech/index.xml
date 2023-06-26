@@ -13,7 +13,7 @@
       <pubDate>Mon, 26 Jun 2023 10:30:02 +0800</pubDate>
       
       <guid>https://jiangjun8888.github.io/posts/tech/%E6%9E%84%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%B8%A6%E6%9C%89jdk&#43;python%E7%8E%AF%E5%A2%83%E7%9A%84%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8F/</guid>
-      <description>我司的 Java 编写的微服务通过 Docker 容器部署，最近有一项功能需要执行 Python 脚本获取返回值，此时就需要容器中带上Python的环境才可以，记录下搭建过程。 1</description>
+      <description>我司的 Java 编写的微服务通过 Docker 容器部署，最近有一项功能需要执行 Python 脚本获取返回值，此时就需要容器中带上Python的环境才可以，记录下搭建过程。 一</description>
     </item>
     
     <item>
